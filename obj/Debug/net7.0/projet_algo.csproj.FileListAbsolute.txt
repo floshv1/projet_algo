@@ -12,3 +12,17 @@ D:\Programmation\Algorithmique\projet_algo_s1\Plateau\obj\Debug\net7.0\refint\pr
 D:\Programmation\Algorithmique\projet_algo_s1\Plateau\obj\Debug\net7.0\projet_algo.pdb
 D:\Programmation\Algorithmique\projet_algo_s1\Plateau\obj\Debug\net7.0\projet_algo.genruntimeconfig.cache
 D:\Programmation\Algorithmique\projet_algo_s1\Plateau\obj\Debug\net7.0\ref\projet_algo.dll
+C:\Users\GHKSF\Documents\VSC\projet_algo_s1\flo\bin\Debug\net7.0\projet_algo.exe
+C:\Users\GHKSF\Documents\VSC\projet_algo_s1\flo\bin\Debug\net7.0\projet_algo.deps.json
+C:\Users\GHKSF\Documents\VSC\projet_algo_s1\flo\bin\Debug\net7.0\projet_algo.runtimeconfig.json
+C:\Users\GHKSF\Documents\VSC\projet_algo_s1\flo\bin\Debug\net7.0\projet_algo.dll
+C:\Users\GHKSF\Documents\VSC\projet_algo_s1\flo\bin\Debug\net7.0\projet_algo.pdb
+C:\Users\GHKSF\Documents\VSC\projet_algo_s1\flo\obj\Debug\net7.0\projet_algo.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\GHKSF\Documents\VSC\projet_algo_s1\flo\obj\Debug\net7.0\projet_algo.AssemblyInfoInputs.cache
+C:\Users\GHKSF\Documents\VSC\projet_algo_s1\flo\obj\Debug\net7.0\projet_algo.AssemblyInfo.cs
+C:\Users\GHKSF\Documents\VSC\projet_algo_s1\flo\obj\Debug\net7.0\projet_algo.csproj.CoreCompileInputs.cache
+C:\Users\GHKSF\Documents\VSC\projet_algo_s1\flo\obj\Debug\net7.0\projet_algo.dll
+C:\Users\GHKSF\Documents\VSC\projet_algo_s1\flo\obj\Debug\net7.0\refint\projet_algo.dll
+C:\Users\GHKSF\Documents\VSC\projet_algo_s1\flo\obj\Debug\net7.0\projet_algo.pdb
+C:\Users\GHKSF\Documents\VSC\projet_algo_s1\flo\obj\Debug\net7.0\projet_algo.genruntimeconfig.cache
+C:\Users\GHKSF\Documents\VSC\projet_algo_s1\flo\obj\Debug\net7.0\ref\projet_algo.dll
