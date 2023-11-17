@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\GHKSF\\Documents\\VSC\\projet_algo\\projet_algo.csproj": {}
+    "C:\\Users\\GHKSF\\Documents\\VSC\\projet_algo_s1\\dictionnaire\\projet_algo.csproj": {}
   },
   "projects": {
-    "C:\\Users\\GHKSF\\Documents\\VSC\\projet_algo\\projet_algo.csproj": {
+    "C:\\Users\\GHKSF\\Documents\\VSC\\projet_algo_s1\\dictionnaire\\projet_algo.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\GHKSF\\Documents\\VSC\\projet_algo\\projet_algo.csproj",
+        "projectUniqueName": "C:\\Users\\GHKSF\\Documents\\VSC\\projet_algo_s1\\dictionnaire\\projet_algo.csproj",
         "projectName": "projet_algo",
-        "projectPath": "C:\\Users\\GHKSF\\Documents\\VSC\\projet_algo\\projet_algo.csproj",
+        "projectPath": "C:\\Users\\GHKSF\\Documents\\VSC\\projet_algo_s1\\dictionnaire\\projet_algo.csproj",
         "packagesPath": "C:\\Users\\GHKSF\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\GHKSF\\Documents\\VSC\\projet_algo\\obj\\",
+        "outputPath": "C:\\Users\\GHKSF\\Documents\\VSC\\projet_algo_s1\\dictionnaire\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -59,7 +59,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.404\\RuntimeIdentifierGraph.json"
         }
       }
     }
