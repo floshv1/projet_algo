@@ -33,7 +33,22 @@ namespace projet_algo
             sr.Close();
         }
 
-        
+        public bool RecheDichoRecursif(string mot)
+        {
+            bool trouve = false;
+            int lettre = Convert.ToInt32(mot[0]);
+            int indexLettre = lettre - 97;
+
+            return trouve;
+        }
+
+        public void Tri_Fusion()
+        {
+            for (int i = 0; i < dico.Count; i++)
+            {
+                
+            }
+        }
 
         public string toString()
         {

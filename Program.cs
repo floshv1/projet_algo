@@ -5,7 +5,7 @@
         static void Main(string[] args)
         {
             Dictionnaire dico = new Dictionnaire("Français");
-            Console.WriteLine(dico.toString());       
+            Console.WriteLine(dico.toString());
         }
     }
 }
