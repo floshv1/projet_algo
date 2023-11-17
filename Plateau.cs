@@ -1,3 +1,4 @@
+using System.Globalization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -109,6 +110,20 @@ namespace projet_algo
                     matrice[i, j] = listeLettre[i][j];
                 }
             }
+        }
+
+        public string toString()
+        {
+            string texte = "";
+            for(int i = 0; i < this.matrice.GetLength(0); i++)
+            {
+                for(int j = 0; j < this.matrice.GetLength(1); j++)
+                {
+                    texte += matrice[i, j] + " ";
+                }
+                texte += "\n";
+            }
+            return texte;
         }
     }
 }
