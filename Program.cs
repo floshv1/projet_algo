@@ -6,6 +6,19 @@
         {
             Dictionnaire dico = new Dictionnaire("Français");
             Console.WriteLine(dico.toString());
+
+            foreach (string ligne in dico.ListeMots[24])
+            {
+                Console.Write(ligne + " ");
+            }
+
+            Console.WriteLine("\n");
+
+            dico.Tri_Fusion_Dico();
+            foreach (string ligne in dico.ListeMots[24])
+            {
+                Console.Write(ligne + " ");
+            }
         }
     }
 }

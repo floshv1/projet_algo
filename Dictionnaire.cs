@@ -9,7 +9,7 @@ namespace projet_algo
     public class Dictionnaire
     {
         string langue;
-        List<string[]> dico;
+        List<string[]> listeMots;
 
         public Dictionnaire(string langue)
         {
@@ -18,16 +18,21 @@ namespace projet_algo
             ReadFile(fileName);
         }
 
+        public List<string[]> ListeMots 
+        { 
+            get{ return listeMots;}
+        }
+
         public void ReadFile(string fileName)
         {
-            dico = new List<string[]>();
+            listeMots = new List<string[]>();
             StreamReader sr = new StreamReader(fileName);
             string line = sr.ReadLine();
 
             while (line != null)
             {
                 string[] words = line.Split(" ");
-                dico.Add(words);
+                listeMots.Add(words);
                 line = sr.ReadLine();
             }
             sr.Close();
@@ -42,18 +47,81 @@ namespace projet_algo
             return trouve;
         }
 
-        public void Tri_Fusion()
+        public void Tri_Fusion_Dico()
         {
-            for (int i = 0; i < dico.Count; i++)
+            for (int i = 0; i < listeMots.Count; i++)
             {
-                
+                Tri_Fusion(listeMots[i]);
             }
+        }
+        public string[] Tri_Fusion(string[] tableau)
+        {
+            if (tableau.Length <= 1)
+            {
+                return tableau;
+            }
+
+            int milieu = tableau.Length / 2;
+            string[] gauche = new string[milieu];
+            string[] droite = new string[tableau.Length - milieu];
+
+            for (int j = 0; j < milieu; j++)
+            {
+                gauche[j] = tableau[j];
+            }
+
+            for (int j = milieu; j < tableau.Length; j++)
+            {
+                droite[j - milieu] = tableau[j];
+            }
+
+            gauche = Tri_Fusion(gauche);
+            droite = Tri_Fusion(droite);
+            return Fusion(tableau,gauche, droite);
+        }
+
+        public string[] Fusion(string[]tableau, string[] gauche, string[] droite)
+        {
+            int indexGauche = 0;
+            int indexDroite = 0;
+            int indexTableau = 0;
+
+            while (indexGauche < gauche.Length && indexDroite < droite.Length)
+            {
+                if (gauche[indexGauche].CompareTo(droite[indexDroite]) < 0)
+                {
+                    tableau[indexTableau] = gauche[indexGauche];
+                    indexGauche++;
+                }
+                else
+                {
+                    tableau[indexTableau] = droite[indexDroite];
+                    indexDroite++;
+                }
+                indexTableau++;
+            }
+
+            while (indexGauche < gauche.Length)
+            {
+                tableau[indexTableau] = gauche[indexGauche];
+                indexGauche++;
+                indexTableau++;
+            }
+
+            while (indexDroite < droite.Length)
+            {
+                tableau[indexTableau] = droite[indexDroite];
+                indexDroite++;
+                indexTableau++;
+            }
+
+            return tableau;
         }
 
         public string toString()
         {
             int nombreDeMots = 0;
-            foreach (string[] words in dico)
+            foreach (string[] words in listeMots)
             {
                 nombreDeMots += words.Length;
             }
