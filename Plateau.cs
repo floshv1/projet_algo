@@ -30,27 +30,35 @@ namespace projet_algo
 
         public Plateau(string filename)
         {
-            int ligne = 0;
-            int colonne = 0;
+            List<char[]> listeLettre = new List<char[]>();
 
-            string[] lines = File.ReadAllLines(filename); // Fait comme si toutes les lignes etait egales
-            string[] firstLine = lines[0].Split(';');
+            StreamReader sr = new StreamReader(filename);
+            string s = sr.ReadLine();
 
-            ligne = firstLine.Length;
-            colonne = lines.Length;
-
-            matrice = new char[ligne, colonne];
-
-            for (int i = 0; i < ligne; i++)
+            while (s != null)
             {
-                string[] line = lines[i].Split(';');
-
-                for (int j = 0; j < colonne ; j++)
+                string[] lines = s.Split(';');
+                char[] tabLettre = new char[lines.Length];
+                for (int i = 0; i < lines.Length; i++)
                 {
-                    matrice[i, j] = char.Parse(line[j]);
+                    tabLettre[i] = char.Parse(lines[i]);
+                }
+                listeLettre.Add(tabLettre);
+                s = sr.ReadLine();
+            }
+            sr.Close();
+
+            matrice = new char[listeLettre.Count,listeLettre[0].Length];
+            
+            for (int i = 0; i <listeLettre.Count ; i++)
+            {
+                for (int j = 0; j <listeLettre[0].Length ; j++)
+                {
+                    matrice[i, j] = listeLettre[i][j];
                 }
             }
         }
+
         public char[,] Matrice
         {
             get { return matrice; }
