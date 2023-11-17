@@ -23,7 +23,7 @@ namespace projet_algo // Note: actual namespace depends on the project name.
             AfficheMatrice(plateauFichier.Matrice);
 
             Console.WriteLine();
-            Plateau plateauAleatoire = new Plateau(8);
+            Plateau plateauAleatoire = new Plateau(8,6);
             AfficheMatrice(plateauAleatoire.Matrice);
             
         }
