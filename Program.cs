@@ -19,6 +19,10 @@
             {
                 Console.Write(ligne + " ");
             }
+
+            Console.WriteLine("\n");
+
+            Console.WriteLine(dico.RecheDichoDico("Yod"));
         }
     }
 }

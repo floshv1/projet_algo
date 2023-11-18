@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using System.Runtime.CompilerServices;
 
 namespace projet_algo
 {
@@ -38,13 +40,34 @@ namespace projet_algo
             sr.Close();
         }
 
-        public bool RecheDichoRecursif(string mot)
+        public bool RecheDichoDico(string mot)
         {
-            bool trouve = false;
-            int lettre = Convert.ToInt32(mot[0]);
-            int indexLettre = lettre - 97;
+            mot= mot.ToUpper();
+            int index = char.Parse(mot[0].ToString().ToLower()) - 97;
+            return RecheDichoRecursif(listeMots[index], mot, 0,listeMots[index].Length-1 );
+        }
 
-            return trouve;
+        public bool RecheDichoRecursif(string[] tabMots, string mot, int debut, int fin)
+        {
+            if (fin < debut){
+                return false;
+            }
+            int milieu = (debut + fin) / 2;
+
+            if (mot == tabMots[milieu])
+            {
+                return true;
+            }
+            else if (tabMots[milieu].CompareTo(mot) > 0)
+            {
+                fin = milieu - 1;
+            }
+            else
+            {
+                debut = milieu + 1;
+            }
+
+            return RecheDichoRecursif(tabMots, mot, debut, fin);        
         }
 
         public void Tri_Fusion_Dico()
