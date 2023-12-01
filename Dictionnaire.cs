@@ -39,14 +39,12 @@ namespace projet_algo
             }
             sr.Close();
         }
-
         public bool RecheDichoDico(string mot)
         {
             mot= mot.ToUpper();
             int index = char.Parse(mot[0].ToString().ToLower()) - 97;
             return RecheDichoRecursif(listeMots[index], mot, 0,listeMots[index].Length-1 );
         }
-
         public bool RecheDichoRecursif(string[] tabMots, string mot, int debut, int fin)
         {
             if (fin < debut){
@@ -69,7 +67,6 @@ namespace projet_algo
 
             return RecheDichoRecursif(tabMots, mot, debut, fin);        
         }
-
         public void Tri_Fusion_Dico()
         {
             for (int i = 0; i < listeMots.Count; i++)
@@ -143,13 +140,14 @@ namespace projet_algo
 
         public string toString()
         {
-            int nombreDeMots = 0;
-            foreach (string[] words in listeMots)
+            string strLangue = "La langue du dictionnaire est " + langue + ".";
+            string strNombreDeMots = "";
+            
+            for (int i = 65 ; i < 91 ; i++)
             {
-                nombreDeMots += words.Length;
+                strNombreDeMots += "\n" + Convert.ToChar(i) + " : " + listeMots[i-65].Length + " mots";
             }
-            string strNombreDeMots= "Il y a " + nombreDeMots + " mots dans le dictionnaire.";
-            return strNombreDeMots + "\n" + "La langue du dictionnaire est " + langue + ".";
+            return strLangue + strNombreDeMots;
         }
 
     }

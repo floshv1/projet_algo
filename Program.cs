@@ -7,7 +7,7 @@
             Dictionnaire dico = new Dictionnaire("Français");
             Console.WriteLine(dico.toString());
 
-            foreach (string ligne in dico.ListeMots[24])
+            /*foreach (string ligne in dico.ListeMots[24])
             {
                 Console.Write(ligne + " ");
             }
@@ -22,7 +22,7 @@
 
             Console.WriteLine("\n");
 
-            Console.WriteLine(dico.RecheDichoDico("Yod"));
+            Console.WriteLine(dico.RecheDichoDico("Yod"));*/
         }
     }
 }
