@@ -1,0 +1,14 @@
+/Users/reda.s/projet_algo_s1/Deplacement/obj/Debug/net7.0/projet_algo.GeneratedMSBuildEditorConfig.editorconfig
+/Users/reda.s/projet_algo_s1/Deplacement/obj/Debug/net7.0/projet_algo.AssemblyInfoInputs.cache
+/Users/reda.s/projet_algo_s1/Deplacement/obj/Debug/net7.0/projet_algo.AssemblyInfo.cs
+/Users/reda.s/projet_algo_s1/Deplacement/obj/Debug/net7.0/projet_algo.csproj.CoreCompileInputs.cache
+/Users/reda.s/projet_algo_s1/Deplacement/bin/Debug/net7.0/projet_algo
+/Users/reda.s/projet_algo_s1/Deplacement/bin/Debug/net7.0/projet_algo.deps.json
+/Users/reda.s/projet_algo_s1/Deplacement/bin/Debug/net7.0/projet_algo.runtimeconfig.json
+/Users/reda.s/projet_algo_s1/Deplacement/bin/Debug/net7.0/projet_algo.dll
+/Users/reda.s/projet_algo_s1/Deplacement/bin/Debug/net7.0/projet_algo.pdb
+/Users/reda.s/projet_algo_s1/Deplacement/obj/Debug/net7.0/projet_algo.dll
+/Users/reda.s/projet_algo_s1/Deplacement/obj/Debug/net7.0/refint/projet_algo.dll
+/Users/reda.s/projet_algo_s1/Deplacement/obj/Debug/net7.0/projet_algo.pdb
+/Users/reda.s/projet_algo_s1/Deplacement/obj/Debug/net7.0/projet_algo.genruntimeconfig.cache
+/Users/reda.s/projet_algo_s1/Deplacement/obj/Debug/net7.0/ref/projet_algo.dll
