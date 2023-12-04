@@ -14,8 +14,8 @@ namespace projet_algo // Note: actual namespace depends on the project name.
 
             Console.WriteLine();
 
-            Plateau plateauAleatoire = new Plateau(8,6);
-            Console.WriteLine(plateauAleatoire.toString());
+            plateauFichier.Recherche_Mot("echelle");
+            Console.WriteLine(plateauFichier.toString());
             
         }
     }

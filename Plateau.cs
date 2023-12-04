@@ -81,6 +81,55 @@ namespace projet_algo
             sw.Close();
         }
 
+        public bool Recherche_Mot(string mot)
+        {
+            bool verif = false;
+            mot = mot.ToLower();
+            if (mot.Length < 2)
+            {
+                Console.WriteLine("Erreur : Le mot doit être d'au moins 2 lettres.");
+            }
+
+            int colonnes = matrice.GetLength(1);
+
+            // Parcourir chaque cellule de la base du plateau
+            for (int j = 0; j < colonnes; j++)
+            {
+
+                
+                // Recherche le mot à partir de chaque cellule de la base
+                if (Recherche_Lettre(mot, matrice.GetLength(0) - 1, j, 0))
+                {
+                    verif = true;
+                }
+            }
+
+            if(!verif)
+            {
+                Console.WriteLine($"Erreur : Le mot '{mot}' n'est pas dans le plateau.");
+
+            }
+            
+            return verif;
+        }
+
+        public bool Recherche_Lettre(string mot, int ligne, int colonne, int index)
+        {
+            if (index == mot.Length)
+            {
+                return true;
+            }
+            if (matrice[ligne,colonne] == mot[index])
+            {
+                char memoire = matrice[ligne, colonne];
+                bool verif = Recherche_Lettre(mot, ligne, colonne - 1, index + 1)|| Recherche_Lettre(mot, ligne - 1, colonne - 1, index + 1)
+                        || Recherche_Lettre(mot, ligne - 1, colonne, index + 1) || Recherche_Lettre(mot, ligne - 1, colonne + 1, index + 1)
+                        || Recherche_Lettre(mot, ligne, colonne + 1, index + 1) ;
+                return verif;
+            }
+            return false;
+        }
+ 
         public void ToRead(string nomFile)
         {
             List<char[]> listeLettre = new List<char[]>();
@@ -125,5 +174,6 @@ namespace projet_algo
             }
             return texte;
         }
+    
     }
 }

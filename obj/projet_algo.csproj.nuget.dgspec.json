@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\GHKSF\\Documents\\VSC\\projet_algo_s1\\flo\\projet_algo.csproj": {}
+    "D:\\Programmation\\Algorithmique\\projet_algo_s1\\Plateau\\projet_algo.csproj": {}
   },
   "projects": {
-    "C:\\Users\\GHKSF\\Documents\\VSC\\projet_algo_s1\\flo\\projet_algo.csproj": {
+    "D:\\Programmation\\Algorithmique\\projet_algo_s1\\Plateau\\projet_algo.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\GHKSF\\Documents\\VSC\\projet_algo_s1\\flo\\projet_algo.csproj",
+        "projectUniqueName": "D:\\Programmation\\Algorithmique\\projet_algo_s1\\Plateau\\projet_algo.csproj",
         "projectName": "projet_algo",
-        "projectPath": "C:\\Users\\GHKSF\\Documents\\VSC\\projet_algo_s1\\flo\\projet_algo.csproj",
-        "packagesPath": "C:\\Users\\GHKSF\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\GHKSF\\Documents\\VSC\\projet_algo_s1\\flo\\obj\\",
+        "projectPath": "D:\\Programmation\\Algorithmique\\projet_algo_s1\\Plateau\\projet_algo.csproj",
+        "packagesPath": "C:\\Users\\flori\\.nuget\\packages\\",
+        "outputPath": "D:\\Programmation\\Algorithmique\\projet_algo_s1\\Plateau\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\GHKSF\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\flori\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,6 +26,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -59,7 +60,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.404\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
         }
       }
     }
