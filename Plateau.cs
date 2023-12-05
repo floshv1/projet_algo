@@ -14,7 +14,7 @@ namespace projet_algo
         #region Constructeurs
         public Plateau(int ligne, int colonne)
         {
-            List<char> listeLettre = ListeLettre("Lettre.txt");
+            List<char> listeLettre = ListeLettre("Lettre.txt", ligne, colonne);
             Random rand = new Random();
 
             matrice = new char[ligne, colonne];
@@ -43,18 +43,18 @@ namespace projet_algo
             set { matrice = value; }
         }
         
-        public List<char> ListeLettre(string filename)
+        public List<char> ListeLettre(string filename, int ligne, int colonne)
         {
             List<char> listeLettre = new List<char>();
             StreamReader sr = new StreamReader(filename);
+            int nbrLettre = ligne * colonne;
 
             string line = sr.ReadLine();
 
             while (line != null)
             {
                 string[] lineSplit = line.Split(',');
-
-                int occurenceMax = int.Parse(lineSplit[1]); 
+                int occurenceMax = Convert.ToInt32( double.Parse(lineSplit[1])* nbrLettre / 100); 
 
                 for (int i = 0; i < occurenceMax; i++)
                 {
