@@ -185,7 +185,6 @@ namespace projet_algo
             for (int j = 0; j < cols; j++)
             {
                 bool lettreDeplacee;
-
                 do
                 {
                     lettreDeplacee = false;
