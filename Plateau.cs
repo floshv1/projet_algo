@@ -84,70 +84,96 @@ namespace projet_algo
 
         public bool Recherche_Mot(string mot)
         {
-            bool verif = false;
-            bool estMaj = false;
-            mot = mot.ToLower();
-            if (mot.Length < 2)
+            try
             {
-                Console.WriteLine("Erreur : Le mot doit être d'au moins 2 lettres.");
-                return false;
-            }
-
-            int colonnes = matrice.GetLength(1);
-
-            // Parcourir chaque cellule de la base du plateau
-            for (int j = 0; j < colonnes ; j++)
-            {
-                // Recherche le mot à partir de chaque cellule de la base
-                if (Recherche_Lettre(mot, matrice.GetLength(0) - 1, j, 0))
+                bool verif = false;
+                bool estMaj = false;
+                mot = mot.ToLower();
+                if (mot.Length < 2)
                 {
-                    verif = true;
+                    Console.WriteLine("Erreur : Le mot doit être d'au moins 2 lettres.");
+                    return false;
                 }
-                if (verif)
+
+                int colonnes = matrice.GetLength(1);
+
+                // Parcourir chaque cellule de la base du plateau
+                for (int j = 0; j < colonnes ; j++)
                 {
+                    // Recherche le mot à partir de chaque cellule de la base
+                    if (Recherche_Lettre(mot, matrice.GetLength(0) - 1, j, 0))
+                    {
+                        verif = true;
+                    }
+                    if (verif)
+                    {
                     Retire_Lettre(mot, matrice.GetLength(0) - 1, j, 0);
+                    }
                 }
+                if(!verif)
+                {
+                    Console.WriteLine($"Erreur : Le mot '{mot}' n'est pas dans le plateau.");
+                }
+                return verif;
             }
-            if(!verif)
+            catch(IndexOutOfRangeException e)
             {
-                Console.WriteLine($"Erreur : Le mot '{mot}' n'est pas dans le plateau.");
+                throw;
             }
-            return verif;
+            
         }
 
         public bool Recherche_Lettre(string mot, int ligne, int colonne, int index)
         {
-            if (index == mot.Length)
+            try
             {
-                return true;
+                if (index == mot.Length)
+                {
+                    return true;
+                }
+                    if (matrice[ligne,colonne] == mot[index])
+                    {
+                        char memoire = matrice[ligne, colonne];
+                        bool verif = Recherche_Lettre(mot, ligne, colonne - 1, index + 1)|| Recherche_Lettre(mot, ligne - 1, colonne - 1, index + 1)
+                                || Recherche_Lettre(mot, ligne - 1, colonne, index + 1) || Recherche_Lettre(mot, ligne - 1, colonne + 1, index + 1)
+                                || Recherche_Lettre(mot, ligne, colonne + 1, index + 1) ;
+                        return verif;
+                    }
+                    return false;
             }
-            if (matrice[ligne,colonne] == mot[index])
+            catch( IndexOutOfRangeException e)
             {
-                char memoire = matrice[ligne, colonne];
-                bool verif = Recherche_Lettre(mot, ligne, colonne - 1, index + 1)|| Recherche_Lettre(mot, ligne - 1, colonne - 1, index + 1)
-                        || Recherche_Lettre(mot, ligne - 1, colonne, index + 1) || Recherche_Lettre(mot, ligne - 1, colonne + 1, index + 1)
-                        || Recherche_Lettre(mot, ligne, colonne + 1, index + 1) ;
-                return verif;
+                return false;
+                throw;
             }
-            return false;
+            
         }
 
         public bool Retire_Lettre(string mot, int ligne, int colonne, int index)
         {
-            if (index == mot.Length)
+            try
             {
-                return true;
+                if (index == mot.Length)
+                {
+                    return true;
+                }
+                if (matrice[ligne,colonne] == mot[index])
+                {
+                    char memoire = matrice[ligne, colonne];
+                    matrice[ligne, colonne] = ' ';
+                    bool verif = Retire_Lettre(mot, ligne, colonne - 1, index + 1)|| Retire_Lettre(mot, ligne - 1, colonne - 1, index + 1)
+                            || Retire_Lettre(mot, ligne - 1, colonne, index + 1) || Retire_Lettre(mot, ligne - 1, colonne + 1, index + 1)
+                            || Retire_Lettre(mot, ligne, colonne + 1, index + 1) ;
+                    return verif;
+                }
+                return false;
             }
-            if (matrice[ligne,colonne] == mot[index])
+            catch( IndexOutOfRangeException e)
             {
-                char memoire = matrice[ligne, colonne];
-                matrice[ligne, colonne] = ' ';
-                bool verif = Retire_Lettre(mot, ligne, colonne - 1, index + 1)|| Retire_Lettre(mot, ligne - 1, colonne - 1, index + 1)
-                        || Retire_Lettre(mot, ligne - 1, colonne, index + 1) || Retire_Lettre(mot, ligne - 1, colonne + 1, index + 1)
-                        || Retire_Lettre(mot, ligne, colonne + 1, index + 1) ;
-                return verif;
+                return false;
+                throw;
             }
-            return false;
+            
         }
 
         public void GlisserLettres()
