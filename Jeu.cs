@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -8,7 +9,7 @@ namespace projet_algo
 {
     public class Jeu
     {
-        string nom;
+        public string nom;
         public Joueur joueur1;
         public Joueur joueur2;
         Plateau plateau;
@@ -29,23 +30,37 @@ namespace projet_algo
             this.joueur1 = Joueur.StringToJoueur(lines[1]);
             this.joueur2 = Joueur.StringToJoueur(lines[2]);
             plateau = new Plateau();
+
+            plateau.Matrice = new char[lines.Length - 3, lines[3].Split(';').Length];
             for(int i = 3; i < lines.Length; i++)
             {
                 string[] lineSplit = lines[i].Split(';');
-                char[] c = new char[lineSplit.Length];
                 for(int j = 0; j < lineSplit.Length; j++)
                 {
-                    c[j] = lineSplit[j][0];
-                }
-                int ligne = i - 3;
-                for (int j = 0; j < plateau.Matrice.GetLength(1); j++)
-                {
-                    plateau.Matrice[ligne, j] = c[j];
+                    plateau.Matrice[i-3,j] = lineSplit[j][0];
                 }
             }
         }
 
+        public void BoucleJeu(Jeu session)
+        {
+            if(session.joueur1.EnJeu == true)
+            {
+                session.Jouer(session.joueur1);
+                AuTourDe(session,"joueur2");
+                session.SaveGameToCSV($"Save/save{session.nom}.csv");
 
+                BoucleJeu(session);
+            }
+            else if(session.joueur2.EnJeu == true)
+            {
+                session.Jouer(session.joueur2);
+                AuTourDe(session,"joueur1");
+                session.SaveGameToCSV($"Save/save{session.nom}.csv");
+
+                BoucleJeu(session);
+            }
+        }
         public static void AuTourDe(Jeu session,string nomJoueur)
         {
             if (nomJoueur == "joueur1")
@@ -57,15 +72,16 @@ namespace projet_algo
             {
                 session.joueur1.EnJeu = false;
                 session.joueur2.EnJeu = true;
-            
             }
         }
         public void Jouer(Joueur joueur)
         {
             int cpt = 5;
             string mot = "";
+            bool verif = false;
+
             dico.Tri_Fusion_Dico();
-            Console.WriteLine("C'est au tour de {0} de jouer. Tu as 45 secondes pour touver un mot pour chercher un mot ", joueur.Nom);
+            Console.WriteLine("C'est au tour de {0} de jouer. \nTu as 45 secondes pour touver un mot pour chercher un mot. TOP !", joueur.Nom);
             do
             {
                 Console.Write($"\r{cpt}");
@@ -77,35 +93,51 @@ namespace projet_algo
             DateTime fin = debut + duree;
             do
             {
-                
-                Console.WriteLine( fin - debut);
+                Console.WriteLine(fin - DateTime.Now);
                 Console.WriteLine(plateau.toString());
                 Console.WriteLine();
                 Console.WriteLine("Entrez un mot : ");
                 mot = Console.ReadLine();
-                if(mot== null || mot == "")
+                Console.Clear();
+                if(mot != null && mot != "")
+                {
+                    if(mot != "!")
+                    {
+                        if (dico.RecheDichoDico(mot) == true)
+                        {
+                            if (!joueur.Contient(mot))
+                            {
+                                if (plateau.Recherche_Mot(mot) == false)
+                                {
+                                    Console.WriteLine("Le mot n'est pas dans le plateau");
+                                }
+                                else
+                                {
+                                    verif = true;
+                                    joueur.AddMot(mot);
+                                    joueur.AddScore(mot.Length);
+                                    plateau.GlisserLettres();
+                                    Console.WriteLine("Le mot a été trouvé");
+                                }
+                            }
+                            else Console.WriteLine("Le mot a déjà été trouvé");
+                        }
+                        else Console.WriteLine("Le mot n'est pas dans le dictionnaire");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Vous avez quitté la partie");
+                        joueur.EnJeu = false;
+                        verif = true;
+                    }
+                }
+                else 
                 {
                     Console.WriteLine("Le mot est vide");
                 }
-                else if (dico.RecheDichoDico(mot) == false)
-                {
-                    Console.WriteLine("Le mot n'est pas dans le dictionnaire");
-                }
-                else if (joueur.MotsTrouves.Contains(mot))
-                {
-                    Console.WriteLine("Le mot a déjà été trouvé");
-                }
-                else if (plateau.Recherche_Mot(mot) == false)
-                {
-                    Console.WriteLine("Le mot n'est pas dans le plateau");
-                }
-                else
-                {
-                    
-                    joueur.AddScore(mot.Length);
-                    Console.WriteLine("Le mot a été trouvé");
-                }
-            }while(DateTime.Now < fin && plateau.Recherche_Mot(mot) == false);
+                Console.WriteLine();
+                
+            }while(DateTime.Now < fin && verif == false);
         }
 
         public static string SaisieJoueur(string message)

@@ -30,6 +30,7 @@ namespace projet_algo
             }
 
         }
+
         public Plateau()
         {
             matrice = null;
@@ -102,7 +103,7 @@ namespace projet_algo
                 int colonnes = matrice.GetLength(1);
 
                 // Parcourir chaque cellule de la base du plateau
-                for (int j = 0; j < colonnes ; j++)
+                for (int j = 0; j < colonnes  && estMaj ==false; j++)
                 {
                     // Recherche le mot à partir de chaque cellule de la base
                     if (Recherche_Lettre(mot, matrice.GetLength(0) - 1, j, 0))
@@ -111,7 +112,8 @@ namespace projet_algo
                     }
                     if (verif)
                     {
-                    Retire_Lettre(mot, matrice.GetLength(0) - 1, j, 0);
+                        Retire_Lettre(mot, matrice.GetLength(0) - 1, j, 0);
+                        estMaj = true;
                     }
                 }
                 if(!verif)
@@ -182,11 +184,11 @@ namespace projet_algo
 
         public void GlisserLettres()
         {
-            int ligne = matrice.GetLength(0);
-            int colonne = matrice.GetLength(1);
+            int rows = matrice.GetLength(0);
+            int cols = matrice.GetLength(1);
 
             // Parcourir chaque colonne de la matrice
-            for (int j = 0; j < colonne; j++)
+            for (int j = 0; j < cols; j++)
             {
                 bool lettreDeplacee;
                 do
@@ -194,7 +196,7 @@ namespace projet_algo
                     lettreDeplacee = false;
 
                     // Parcourir chaque ligne de bas en haut (sauf la première ligne)
-                    for (int i = ligne - 1; i > 0; i--)
+                    for (int i = rows - 1; i > 0; i--)
                     {
                         if (matrice[i, j] == ' ' && matrice[i - 1, j] != ' ')
                         {
@@ -210,8 +212,6 @@ namespace projet_algo
                 } while (lettreDeplacee);
             }
         }
-
-
         public void ToRead(string nomFile)
         {
             List<char[]> listeLettre = new List<char[]>();
