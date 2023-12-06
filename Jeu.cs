@@ -49,8 +49,12 @@ namespace projet_algo
                 session.Jouer(session.joueur1);
                 AuTourDe(session,"joueur2");
                 session.SaveGameToCSV($"Save/save{session.nom}.csv");
-
-                BoucleJeu(session);
+                if (plateau.estVide() == true)
+                {
+                    Console.WriteLine("Le plateau est vide");
+                    session.joueur1.EnJeu = false;
+                    session.joueur2.EnJeu = false;
+                }else BoucleJeu(session);
             }
             else if(session.joueur2.EnJeu == true)
             {
@@ -58,7 +62,12 @@ namespace projet_algo
                 AuTourDe(session,"joueur1");
                 session.SaveGameToCSV($"Save/save{session.nom}.csv");
 
-                BoucleJeu(session);
+                if (plateau.estVide() == true)
+                {
+                    Console.WriteLine("Le plateau est vide");
+                    session.joueur1.EnJeu = false;
+                    session.joueur2.EnJeu = false;
+                }else BoucleJeu(session);
             }
             else
             {
@@ -88,7 +97,7 @@ namespace projet_algo
             int cpt = 5;
             string mot = "";
             bool verif = false;
-
+            Console.Clear();
             dico.Tri_Fusion_Dico();
             Console.WriteLine("C'est au tour de {0} de jouer. \nTu as 45 secondes pour touver un mot pour chercher un mot. TOP !", joueur.Nom);
             do
@@ -148,7 +157,6 @@ namespace projet_algo
                 
             }while(DateTime.Now < fin && verif == false);
         }
-
         public static string SaisieJoueur(string message)
         {
             string nomJoueur = "";
@@ -195,6 +203,21 @@ namespace projet_algo
                 sw.WriteLine();
             }
             sw.Close();
+        }
+        public void AfficherScore()
+        {
+            Console.WriteLine("Score de {0} : {1}", joueur1.Nom, joueur1.ScoresPlateau);
+            Console.WriteLine("Score de {0} : {1}", joueur2.Nom, joueur2.ScoresPlateau);
+        }
+        public bool FinDuJeu()
+        {
+            bool fin = false;
+            if (joueur1.EnJeu == false && joueur2.EnJeu == false)
+            {
+                fin = true;
+            }
+            
+            return fin;
         }
     }
 }

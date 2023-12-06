@@ -242,7 +242,21 @@ namespace projet_algo
                 }
             }
         }
-
+        public bool estVide()
+        {
+            bool verif = true;
+            for(int i = 0; i < matrice.GetLength(0); i++)
+            {
+                for(int j = 0; j < matrice.GetLength(1); j++)
+                {
+                    if(matrice[i,j] != ' ')
+                    {
+                        verif = false;
+                    }
+                }
+            }
+            return verif;
+        }
         public string toString()
         {
             string texte = "";

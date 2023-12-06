@@ -12,3 +12,17 @@ C:\Users\GHKSF\Documents\VSC\projet_algo_s1\Jeu\obj\Debug\net7.0\refint\projet_a
 C:\Users\GHKSF\Documents\VSC\projet_algo_s1\Jeu\obj\Debug\net7.0\projet_algo.pdb
 C:\Users\GHKSF\Documents\VSC\projet_algo_s1\Jeu\obj\Debug\net7.0\projet_algo.genruntimeconfig.cache
 C:\Users\GHKSF\Documents\VSC\projet_algo_s1\Jeu\obj\Debug\net7.0\ref\projet_algo.dll
+D:\Programmation\Algorithmique\projet_algo_s1\Jeu\bin\Debug\net7.0\projet_algo.exe
+D:\Programmation\Algorithmique\projet_algo_s1\Jeu\bin\Debug\net7.0\projet_algo.deps.json
+D:\Programmation\Algorithmique\projet_algo_s1\Jeu\bin\Debug\net7.0\projet_algo.runtimeconfig.json
+D:\Programmation\Algorithmique\projet_algo_s1\Jeu\bin\Debug\net7.0\projet_algo.dll
+D:\Programmation\Algorithmique\projet_algo_s1\Jeu\bin\Debug\net7.0\projet_algo.pdb
+D:\Programmation\Algorithmique\projet_algo_s1\Jeu\obj\Debug\net7.0\projet_algo.GeneratedMSBuildEditorConfig.editorconfig
+D:\Programmation\Algorithmique\projet_algo_s1\Jeu\obj\Debug\net7.0\projet_algo.AssemblyInfoInputs.cache
+D:\Programmation\Algorithmique\projet_algo_s1\Jeu\obj\Debug\net7.0\projet_algo.AssemblyInfo.cs
+D:\Programmation\Algorithmique\projet_algo_s1\Jeu\obj\Debug\net7.0\projet_algo.csproj.CoreCompileInputs.cache
+D:\Programmation\Algorithmique\projet_algo_s1\Jeu\obj\Debug\net7.0\projet_algo.dll
+D:\Programmation\Algorithmique\projet_algo_s1\Jeu\obj\Debug\net7.0\refint\projet_algo.dll
+D:\Programmation\Algorithmique\projet_algo_s1\Jeu\obj\Debug\net7.0\projet_algo.pdb
+D:\Programmation\Algorithmique\projet_algo_s1\Jeu\obj\Debug\net7.0\projet_algo.genruntimeconfig.cache
+D:\Programmation\Algorithmique\projet_algo_s1\Jeu\obj\Debug\net7.0\ref\projet_algo.dll
