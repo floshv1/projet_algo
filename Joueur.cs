@@ -9,6 +9,7 @@ namespace projet_algo
     public class Joueur
     {
         private string nom ; 
+        bool enJeu;
         private List<string> motsTrouves; 
         private int scoresPlateau;
 
@@ -17,6 +18,10 @@ namespace projet_algo
             get{return this.nom ;}
             set{ this.nom = value;}
         } 
+        public bool EnJeu{
+            get{return this.enJeu;}
+            set{this.enJeu = value;}
+        }
 
         public List<string> MotsTrouves{
             get{return this.MotsTrouves;}
@@ -56,16 +61,16 @@ namespace projet_algo
             foreach(string mot in motsTrouves){
                 strMotsTrouves += mot + ","; 
             }
-            return($"{this.nom};{scoresPlateau};{strMotsTrouves}" );
+            return($"{this.nom};{this.enJeu};{scoresPlateau};{strMotsTrouves}" );
         }
 
         public static Joueur StringToJoueur(string ligne){
             string[] lignes = ligne.Split(';');
             Joueur joueur = new Joueur(lignes[0]);
-            
-            joueur.scoresPlateau = int.Parse(lignes[1]);
+            joueur.enJeu = bool.Parse(lignes[1]);
+            joueur.scoresPlateau = int.Parse(lignes[2]);
 
-            string[] strMotsTrouves = lignes[2].Split(',');
+            string[] strMotsTrouves = lignes[3].Split(',');
             foreach(string mot in strMotsTrouves){
                 joueur.motsTrouves.Add(mot);
             }
