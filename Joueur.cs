@@ -48,11 +48,28 @@ namespace projet_algo
             foreach(string mot in motsTrouves){
                 strMotsTrouves += mot + "; "; 
             }
-            int Scores = 0;
-            foreach(int score in scoresPlateau){
-                Scores+= score;
+            return("Nom : "+this.nom+"\nMots Trouvés : "+strMotsTrouves+"\nScores Plateaux : "+ scoresPlateau);
+        }
+
+        public string toFile(){
+            string strMotsTrouves =""; 
+            foreach(string mot in motsTrouves){
+                strMotsTrouves += mot + ","; 
             }
-            return("Nom : "+this.nom+"\nMots Trouvés : "+strMotsTrouves+"\nScores Plateaux : "+Scores);
+            return($"{this.nom};{scoresPlateau};{strMotsTrouves}" );
+        }
+
+        public Joueur StringToJoueur(string ligne){
+            string[] lignes = ligne.Split(';');
+            Joueur joueur = new Joueur(lignes[0]);
+            
+            joueur.scoresPlateau = int.Parse(lignes[1]);
+
+            string[] strMotsTrouves = lignes[2].Split(',');
+            foreach(string mot in strMotsTrouves){
+                joueur.motsTrouves.Add(mot);
+            }
+            return joueur;
         }
 
         public void AddScore(int val){
