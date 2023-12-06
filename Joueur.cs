@@ -10,7 +10,7 @@ namespace projet_algo
     {
         private string nom ; 
         private List<string> motsTrouves; 
-        private Dictionary<string, int> scoresPlateau;
+        private int scoresPlateau;
 
 
         public string Nom{
@@ -23,7 +23,7 @@ namespace projet_algo
             set{this.MotsTrouves = value;}
         }
 
-        public Dictionary<string, int> ScoresPlateau{
+        public int ScoresPlateau{
             get{return this.scoresPlateau;}
             set{this.scoresPlateau = value;}
         }
@@ -32,7 +32,7 @@ namespace projet_algo
             if(nom != null){
                 this.nom  = nom ; 
                 this.motsTrouves = new List<string>();
-                this.scoresPlateau = new Dictionary<string, int>();
+                this.scoresPlateau = 0;
             }
             else{
                 Console.WriteLine("Attention aucun nom d'utilisateur entré");
@@ -48,20 +48,15 @@ namespace projet_algo
             foreach(string mot in motsTrouves){
                 strMotsTrouves += mot + "; "; 
             }
-            string strScoresPlateaux = "";
-            foreach(KeyValuePair<string,int> score in scoresPlateau){
-                strScoresPlateaux += score.Key +": "+score.Value + "; ";
+            int Scores = 0;
+            foreach(int score in scoresPlateau){
+                Scores+= score;
             }
-            return("Nom : "+this.nom+"\nMots Trouvés : "+strMotsTrouves+"\nScores Plateaux : "+strScoresPlateaux);
+            return("Nom : "+this.nom+"\nMots Trouvés : "+strMotsTrouves+"\nScores Plateaux : "+Scores);
         }
 
-        public void AddScore(string nomPlateau, int val){
-            if(scoresPlateau.ContainsKey(nomPlateau)){
-                scoresPlateau[nomPlateau]+= val; 
-            }
-            else{
-                scoresPlateau.Add(nomPlateau, val);
-            }
+        public void AddScore(int val){
+                scoresPlateau += val;
         }
 
         public bool Contient(string mot){
