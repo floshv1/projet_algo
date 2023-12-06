@@ -31,6 +31,11 @@ namespace projet_algo
 
         }
 
+        public Plateau()
+        {
+            matrice = null;
+        }
+
         public Plateau(string filename)
         {
             ToRead(filename);
