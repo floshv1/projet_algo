@@ -59,7 +59,7 @@ namespace projet_algo
             return($"{this.nom};{scoresPlateau};{strMotsTrouves}" );
         }
 
-        public Joueur StringToJoueur(string ligne){
+        public static Joueur StringToJoueur(string ligne){
             string[] lignes = ligne.Split(';');
             Joueur joueur = new Joueur(lignes[0]);
             
