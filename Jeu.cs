@@ -60,6 +60,15 @@ namespace projet_algo
 
                 BoucleJeu(session);
             }
+            else
+            {
+                AuTourDe(session,"joueur1");
+                session.SaveGameToCSV($"Save/save{session.nom}.csv");
+                session.Jouer(session.joueur1);
+                AuTourDe(session,"joueur2");
+                session.SaveGameToCSV($"Save/save{session.nom}.csv");
+                BoucleJeu(session);
+            }
         }
         public static void AuTourDe(Jeu session,string nomJoueur)
         {
