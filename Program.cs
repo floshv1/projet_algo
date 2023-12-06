@@ -5,18 +5,22 @@ namespace projet_algo // Note: actual namespace depends on the project name.
 {
     internal class Program
     {
-
-        
         static void Main(string[] args)
         {
+            Console.Clear();
             Plateau plateauFichier = new Plateau("Test1.csv");
-            Console.WriteLine(plateauFichier.toString());
+            Plateau plateauAleatoire = new Plateau(10,10);
+            
+            Console.WriteLine(plateauAleatoire.toString());
 
             Console.WriteLine();
+            Console.WriteLine("Entrez un mot à rechercher : ");
+            string mot = Console.ReadLine();
+            Console.Clear();
 
-            plateauFichier.Recherche_Mot("echelle");
-            Console.WriteLine(plateauFichier.toString());
-            
+            plateauAleatoire.Recherche_Mot(mot);
+            plateauAleatoire.GlisserLettres();
+
         }
     }
 }

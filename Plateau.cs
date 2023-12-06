@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace projet_algo
 {
@@ -13,7 +14,7 @@ namespace projet_algo
         #region Constructeurs
         public Plateau(int ligne, int colonne)
         {
-            List<char> listeLettre = ListeLettre("Lettre.txt");
+            List<char> listeLettre = ListeLettre("Lettre.txt", ligne, colonne);
             Random rand = new Random();
 
             matrice = new char[ligne, colonne];
@@ -30,6 +31,11 @@ namespace projet_algo
 
         }
 
+        public Plateau()
+        {
+            matrice = null;
+        }
+
         public Plateau(string filename)
         {
             ToRead(filename);
@@ -42,18 +48,18 @@ namespace projet_algo
             set { matrice = value; }
         }
         
-        public List<char> ListeLettre(string filename)
+        public List<char> ListeLettre(string filename, int ligne, int colonne)
         {
             List<char> listeLettre = new List<char>();
             StreamReader sr = new StreamReader(filename);
+            int nbrLettre = ligne * colonne;
 
             string line = sr.ReadLine();
 
             while (line != null)
             {
                 string[] lineSplit = line.Split(',');
-
-                int occurenceMax = int.Parse(lineSplit[1]); 
+                int occurenceMax = Convert.ToInt32( double.Parse(lineSplit[1])* nbrLettre / 100); 
 
                 for (int i = 0; i < occurenceMax; i++)
                 {
@@ -83,53 +89,129 @@ namespace projet_algo
 
         public bool Recherche_Mot(string mot)
         {
-            bool verif = false;
-            mot = mot.ToLower();
-            if (mot.Length < 2)
+            try
             {
-                Console.WriteLine("Erreur : Le mot doit être d'au moins 2 lettres.");
-            }
-
-            int colonnes = matrice.GetLength(1);
-
-            // Parcourir chaque cellule de la base du plateau
-            for (int j = 0; j < colonnes; j++)
-            {
-
-                
-                // Recherche le mot à partir de chaque cellule de la base
-                if (Recherche_Lettre(mot, matrice.GetLength(0) - 1, j, 0))
+                bool verif = false;
+                bool estMaj = false;
+                mot = mot.ToLower();
+                if (mot.Length < 2)
                 {
-                    verif = true;
+                    Console.WriteLine("Erreur : Le mot doit être d'au moins 2 lettres.");
+                    return false;
                 }
+
+                int colonnes = matrice.GetLength(1);
+
+                // Parcourir chaque cellule de la base du plateau
+                for (int j = 0; j < colonnes  && estMaj ==false; j++)
+                {
+                    // Recherche le mot à partir de chaque cellule de la base
+                    if (Recherche_Lettre(mot, matrice.GetLength(0) - 1, j, 0))
+                    {
+                        verif = true;
+                    }
+                    if (verif)
+                    {
+                        Retire_Lettre(mot, matrice.GetLength(0) - 1, j, 0);
+                        estMaj = true;
+                    }
+                }
+                if(!verif)
+                {
+                    Console.WriteLine($"Erreur : Le mot '{mot}' n'est pas dans le plateau.");
+                }
+                return verif;
             }
-
-            if(!verif)
+            catch(IndexOutOfRangeException e)
             {
-                Console.WriteLine($"Erreur : Le mot '{mot}' n'est pas dans le plateau.");
-
+                throw;
             }
             
-            return verif;
         }
 
         public bool Recherche_Lettre(string mot, int ligne, int colonne, int index)
         {
-            if (index == mot.Length)
+            try
             {
-                return true;
+                if (index == mot.Length)
+                {
+                    return true;
+                }
+                    if (matrice[ligne,colonne] == mot[index])
+                    {
+                        char memoire = matrice[ligne, colonne];
+                        bool verif = Recherche_Lettre(mot, ligne, colonne - 1, index + 1)|| Recherche_Lettre(mot, ligne - 1, colonne - 1, index + 1)
+                                || Recherche_Lettre(mot, ligne - 1, colonne, index + 1) || Recherche_Lettre(mot, ligne - 1, colonne + 1, index + 1)
+                                || Recherche_Lettre(mot, ligne, colonne + 1, index + 1) ;
+                        return verif;
+                    }
+                    return false;
             }
-            if (matrice[ligne,colonne] == mot[index])
+            catch( IndexOutOfRangeException e)
             {
-                char memoire = matrice[ligne, colonne];
-                bool verif = Recherche_Lettre(mot, ligne, colonne - 1, index + 1)|| Recherche_Lettre(mot, ligne - 1, colonne - 1, index + 1)
-                        || Recherche_Lettre(mot, ligne - 1, colonne, index + 1) || Recherche_Lettre(mot, ligne - 1, colonne + 1, index + 1)
-                        || Recherche_Lettre(mot, ligne, colonne + 1, index + 1) ;
-                return verif;
+                return false;
+                throw;
             }
-            return false;
+            
         }
- 
+
+        public bool Retire_Lettre(string mot, int ligne, int colonne, int index)
+        {
+            try
+            {
+                if (index == mot.Length)
+                {
+                    return true;
+                }
+                if (matrice[ligne,colonne] == mot[index])
+                {
+                    char memoire = matrice[ligne, colonne];
+                    matrice[ligne, colonne] = ' ';
+                    bool verif = Retire_Lettre(mot, ligne, colonne - 1, index + 1)|| Retire_Lettre(mot, ligne - 1, colonne - 1, index + 1)
+                            || Retire_Lettre(mot, ligne - 1, colonne, index + 1) || Retire_Lettre(mot, ligne - 1, colonne + 1, index + 1)
+                            || Retire_Lettre(mot, ligne, colonne + 1, index + 1) ;
+                    return verif;
+                }
+                return false;
+            }
+            catch( IndexOutOfRangeException e)
+            {
+                return false;
+                throw;
+            }
+            
+        }
+
+        public void GlisserLettres()
+        {
+            int rows = matrice.GetLength(0);
+            int cols = matrice.GetLength(1);
+
+            // Parcourir chaque colonne de la matrice
+            for (int j = 0; j < cols; j++)
+            {
+                bool lettreDeplacee;
+                do
+                {
+                    lettreDeplacee = false;
+
+                    // Parcourir chaque ligne de bas en haut (sauf la première ligne)
+                    for (int i = rows - 1; i > 0; i--)
+                    {
+                        if (matrice[i, j] == ' ' && matrice[i - 1, j] != ' ')
+                        {
+                            Console.Clear();
+                            // Si la case est vide et la case au-dessus n'est pas vide, déplacer la lettre de la case au-dessus
+                            matrice[i, j] = matrice[i - 1, j];
+                            matrice[i - 1, j] = ' ';
+                            lettreDeplacee = true;
+                            Console.Write(toString());
+                            Thread.Sleep(100);
+                        }
+                    }
+                } while (lettreDeplacee);
+            }
+        }
         public void ToRead(string nomFile)
         {
             List<char[]> listeLettre = new List<char[]>();
