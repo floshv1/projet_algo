@@ -31,6 +31,7 @@ namespace projet_algo
             case 0:
                 break;
             case 1:
+ 
                 break;
             case 2:
                 Console.Clear();
