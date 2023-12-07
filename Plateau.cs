@@ -205,7 +205,7 @@ namespace projet_algo
                             matrice[i, j] = matrice[i - 1, j];
                             matrice[i - 1, j] = ' ';
                             lettreDeplacee = true;
-                            Console.Write(toString());
+                            Interface.AffichePlateau(Matrice);
                             Thread.Sleep(100);
                         }
                     }

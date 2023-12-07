@@ -1,15 +1,37 @@
-﻿using System.Linq.Expressions;
-using System ; 
+﻿using System;
+using System.ComponentModel.Design;
+using System.IO;
+using System.Linq;
+using System.Threading;
 
 namespace projet_algo
 {
-    internal class Program
+    class Program
     {
-        static void Main(string [] args)
+        public static Jump jump = Jump.Continue;
+        static void Main()
         {
-            Console.Clear();
-            Jeu session = new Jeu(8,8);
-            session.BoucleJeu(session);
+            Interface.Affichage();
+
+            Main_Menu :
+            Interface.MainMenu();
+            if (jump != Jump.Continue) goto Selection;
+
+            Selection :
+
+            switch(jump)
+            {
+                case Jump.Continue:
+                    break;
+                case Jump.Main_Menu:
+                    jump = Jump.Continue;
+                    goto Main_Menu;
+            }
+        }
+        public enum Jump
+        {
+            Continue,
+            Main_Menu
         }
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
@@ -42,14 +43,16 @@ namespace projet_algo
             }
         }
 
-        public void BoucleJeu(Jeu session)
+        public static void BoucleJeu(Jeu session)
         {
             if(session.joueur1.EnJeu == true)
             {
+                Thread.Sleep(1000);
                 session.Jouer(session.joueur1);
+                if(Program.jump != Program.Jump.Continue) return;
                 AuTourDe(session,"joueur2");
                 session.SaveGameToCSV($"Save/save{session.nom}.csv");
-                if (plateau.estVide() == true)
+                if (session.plateau.estVide() == true)
                 {
                     Console.WriteLine("Le plateau est vide");
                     session.joueur1.EnJeu = false;
@@ -58,11 +61,13 @@ namespace projet_algo
             }
             else if(session.joueur2.EnJeu == true)
             {
+                Thread.Sleep(1000);
                 session.Jouer(session.joueur2);
+                if(Program.jump != Program.Jump.Continue) return;
                 AuTourDe(session,"joueur1");
                 session.SaveGameToCSV($"Save/save{session.nom}.csv");
 
-                if (plateau.estVide() == true)
+                if (session.plateau.estVide() == true)
                 {
                     Console.WriteLine("Le plateau est vide");
                     session.joueur1.EnJeu = false;
@@ -71,9 +76,11 @@ namespace projet_algo
             }
             else
             {
+                Thread.Sleep(1000);
                 AuTourDe(session,"joueur1");
                 session.SaveGameToCSV($"Save/save{session.nom}.csv");
                 session.Jouer(session.joueur1);
+                if(Program.jump != Program.Jump.Continue) return;
                 AuTourDe(session,"joueur2");
                 session.SaveGameToCSV($"Save/save{session.nom}.csv");
                 BoucleJeu(session);
@@ -99,11 +106,14 @@ namespace projet_algo
             bool verif = false;
             Console.Clear();
             dico.Tri_Fusion_Dico();
-            Console.WriteLine("C'est au tour de {0} de jouer. \nTu as 45 secondes pour touver un mot pour chercher un mot. TOP !", joueur.Nom);
+            Interface.CenterText($"C'est au tour de {joueur.Nom} de jouer.");
+            Interface.CenterText("Tu as 45 secondes pour touver un mot pour chercher un mot.");
             do
             {
-                Console.Write($"\r{cpt}");
+                Console.Write("{0,"+((Console.WindowWidth / 2) - ("Commence dans : ".Length / 2)) + "}","");
+                Console.Write($"Commence dans : {cpt}");
                 Thread.Sleep(1000);
+                Console.Write("\r");
                 cpt--;
             } while(cpt > 0);
             DateTime debut = DateTime.Now;
@@ -111,10 +121,11 @@ namespace projet_algo
             DateTime fin = debut + duree;
             do
             {
-                Console.WriteLine(fin - DateTime.Now);
-                Console.WriteLine(plateau.toString());
-                Console.WriteLine();
-                Console.WriteLine("Entrez un mot : ");
+                Interface.CenterText($"{fin - DateTime.Now}");
+                Interface.AffichePlateau(plateau.Matrice);
+                Console.Write("\n");
+                Console.Write("{0,"+((Console.WindowWidth / 2) - ("Entrez un mot : ".Length / 2)) + "}","");
+                Console.Write("Entrez un mot : ");
                 mot = Console.ReadLine();
                 Console.Clear();
                 if(mot != null && mot != "")
@@ -127,7 +138,7 @@ namespace projet_algo
                             {
                                 if (plateau.Recherche_Mot(mot) == false)
                                 {
-                                    Console.WriteLine("Le mot n'est pas dans le plateau");
+                                    Interface.CenterText("Le mot n'est pas dans le plateau");
                                 }
                                 else
                                 {
@@ -135,23 +146,33 @@ namespace projet_algo
                                     joueur.AddMot(mot);
                                     joueur.AddScore(mot.Length);
                                     plateau.GlisserLettres();
-                                    Console.WriteLine("Le mot a été trouvé");
+                                    Interface.CenterText("Le mot a été trouvé");
                                 }
                             }
-                            else Console.WriteLine("Le mot a déjà été trouvé");
+                            else Interface.CenterText("Le mot a déjà été trouvé");
                         }
-                        else Console.WriteLine("Le mot n'est pas dans le dictionnaire");
+                        else Interface.CenterText("Le mot n'est pas dans le dictionnaire");
                     }
                     else
                     {
-                        Console.WriteLine("Vous avez quitté la partie");
-                        joueur.EnJeu = false;
-                        verif = true;
+                        switch(Interface.Menu("MENU", new string[] { "Reprendre","Passer son tour", "Quitter la partie"})){
+                            case 0:
+                                break;
+                            case 1:
+                                Interface.CenterText("Vous avez passé votre tour");
+                                verif = true;
+                                break;
+                            case 2:
+                                Interface.CenterText("Vous avez quitté la partie");
+                                Program.jump = Program.Jump.Main_Menu;
+                                verif = true;
+                                break;
+                        }
                     }
                 }
                 else 
                 {
-                    Console.WriteLine("Le mot est vide");
+                    Interface.CenterText("Le mot est vide");
                 }
                 Console.WriteLine();
                 
@@ -162,10 +183,12 @@ namespace projet_algo
             string nomJoueur = "";
             do
             {
-                Console.WriteLine(message);
+                Interface.CenterText(message);
                 Console.Write("{0,"+((Console.WindowWidth / 2) - (message.Length / 2)) + "}","");
                 Console.Write("> ");
                 nomJoueur = Console.ReadLine();
+                Thread.Sleep(1000);
+                Console.Clear();
             } while (nomJoueur == "");
             return nomJoueur;
         }
@@ -174,10 +197,12 @@ namespace projet_algo
             string nomPlateau = "";
             do
             {
-                Console.WriteLine(message);
+                Interface.CenterText(message);
                 Console.Write("{0,"+((Console.WindowWidth / 2) - (message.Length / 2)) + "}","");
                 Console.Write("> ");
                 nomPlateau = Console.ReadLine();
+                Thread.Sleep(1000);
+                Console.Clear();
             } while (nomPlateau == "");
             return nomPlateau;
         }
