@@ -1,26 +1,40 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.SymbolStore;
+using System.Dynamic;
 using System.Linq;
 using System.Security.Cryptography;
+using System.Security.Principal;
 using System.Threading.Tasks;
 
 namespace projet_algo
 {
     public class Interface
-{
+    {
         static ConsoleKeyInfo key;
 
         public static void Affichage()
         {
             Console.Clear();
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.BackgroundColor = ConsoleColor.Black;
-            AfficheTitre("Titre.txt");
-            Console.WriteLine("\n\nPress Enter to get to the menu.");
-            Console.ReadLine();
+            for (int i = 0; i < 10; i++)
+            {
+                Console.ResetColor();
+                Console.ForegroundColor = RandomColor();
+                Console.BackgroundColor = RandomColor();
+                Console.Clear();
+                AfficheTitre("Titre.txt");
+                Thread.Sleep(200);
+            }
+            CenterText("Press Enter to get to the menu.");
+            
+            do
+            {
+                AfficheTitre("Titre.txt");
+                CenterText("Press Enter to get to the menu.");               
+            }while(Console.ReadKey(true).Key != ConsoleKey.Enter);
+            Console.ResetColor();
+            
         }   
-
         public static void MainMenu()
         {
         string[] options = { "Jouer à partir d'un fichier", "Jouer à partir d'un plateau généré aléatoirement","Règle du Jeu","Sortir" };
@@ -33,8 +47,21 @@ namespace projet_algo
                 break;
             case 1:
                 Console.Clear();
-                Jeu session = new Jeu(8,8);
+                Jeu session = new Jeu();
+
                 Jeu.BoucleJeu(session);
+                if (session.FinDuJeu())
+                {
+                    do
+                    {
+                        AfficherScore("Fin Du Jeu",session);
+                        CenterText("Appuyez sur Entrée pour aller au menu.");
+                    }while(Console.ReadKey(true).Key != ConsoleKey.Enter);
+                    
+                    Console.Clear();
+                    MainMenu();
+                    
+                }
                 break;
             case 2:
                 regle();
@@ -61,11 +88,24 @@ namespace projet_algo
                     i++;
                 }
                 options[i] = "Retour";
-                int Choix = Menu("Choisir une sauvegarde : ", options);
+
+                int Choix = Menu("Choisir une sauvegarde", options);
+
                 if (Choix< options.Length-1)
                 {
                     Jeu session = new Jeu(fichiers[Choix]);
                     Jeu.BoucleJeu(session);
+                    if (session.FinDuJeu())
+                    {                        
+                        do
+                        {
+                            AfficherScore("Fin Du Jeu",session);
+                            CenterText("Appuyez sur Entrée pour aller au menu.");
+                        }while(Console.ReadKey(true).Key != ConsoleKey.Enter);
+                    
+                        Console.Clear();
+                        MainMenu();
+                    }
                 }
                 else
                 {
@@ -80,17 +120,31 @@ namespace projet_algo
         }
         public static void regle()
         {
+            do
+            { 
+                Console.Clear();
+                Console.SetCursorPosition(0, Console.WindowHeight / 2 - 9);
+                WriteLineWithUnderline("Règle du Jeu");
+                CenterText("- Vous aurez un temps limité pour trouver un mot dans le plateau (30, 45 ou 60 secondes).         ");
+                CenterText("- Vous devrez écrire entièrement le mot et appuyer sur la touche Entrée.                          \n");
+                CenterText("- Si le mot est invalide, vous ne gagnerez pas de points et vous pourrez réessayer.               ");
+                CenterText("- Si le mot est valide, il sera ajouté à votre liste de mots trouvés et vous gagnerez des points. ");
+                CenterText("- Vos points sont attriubué en fonction de la rareté de la lettre :                               ");
+                CenterText("    - 1 point pour les lettres : E, A, I, N, O, R, S, T, U, L;                                    ");
+                CenterText("    - 2 points pour les lettres : C, D, M, P;                                                     ");
+                CenterText("    - 4 points pour les lettres : B, G;                                                           ");
+                CenterText("    - 5 points pour les lettres : F, H, J, K, Q, V, W, X, Y, Z;                                   \n");
+                CenterText("- Vous pouvez quitter la partie ou passer votre tour à tout moment en saisissant le caractère '!'.");
+                CenterText("- Cependant si vous passer votre tour, vous perderez 2 points.                                    ");
+                CenterText("- La partie se terminera lorsque le plateau sera vide ou lorsque le temps sera écoulé.            ");
+                Console.WriteLine();
+                CenterText("Appuyez sur Entrée pour aller au menu.");
+            }while (Console.ReadKey(true).Key != ConsoleKey.Enter);
+
             Console.Clear();
-            CenterText("Règle du Jeu :");
-            CenterText(" - Vous devrez écrire entièrement le mot et appuyer sur la touche Entrée.");
-            CenterText("-Vos points sont attriubué en fonction de la rareté de la lettre");
-            Console.WriteLine();
-            CenterText("Press Enter to get to the menu.");
-                if (Console.ReadKey(true).Key == ConsoleKey.Enter)
-                {
-                    Console.Clear();
-                    MainMenu();
-                }
+            MainMenu();
+            
+            
         }
         public static void Sortir()
         {
@@ -99,15 +153,41 @@ namespace projet_algo
             Thread.Sleep(1000);
             Environment.Exit(0);
         }
+        public static void AfficherScore(string txt, Jeu session)
+        {
+            string strMotJ1 = "";
+            string strMotJ2 = "";
+            Console.Clear();
+            Console.SetCursorPosition(0, Console.WindowHeight / 2 - 9);
+            Interface.WriteLineWithUnderline(txt);
+
+            Interface.CenterText($"Score de {session.joueur1.Nom} : {session.joueur1.ScoresPlateau}");
+            Interface.CenterText($"Mots trouvés : {session.joueur1.MotsTrouves.Count}");
+            foreach(string mot in session.joueur1.MotsTrouves)
+            {
+                strMotJ1 += mot + " ";
+            }
+            Interface.CenterText(strMotJ1);
+            Console.WriteLine();
+
+            Interface.CenterText($"Score de {session.joueur2.Nom} : {session.joueur2.ScoresPlateau}");
+            Interface.CenterText($"Mots trouvés : {session.joueur2.MotsTrouves.Count}");
+            foreach(string mot in session.joueur2.MotsTrouves)
+            {
+                strMotJ2 += mot + " ";
+            }
+            Interface.CenterText(strMotJ1);
+            Console.WriteLine();
+        }
         public static ConsoleColor RandomColor()
         {
             ConsoleColor[] colors = (ConsoleColor[])Enum.GetValues(typeof(ConsoleColor));
             return colors[new Random().Next(colors.Length)];
         }
-        public static void WriteLineWithUnderline(string text, char underlineChar)
+        public static void WriteLineWithUnderline(string text)
         {
             CenterText(text);
-            CenterText(new string(underlineChar, text.Length+2));
+            CenterText(new string('-', text.Length+2));
             Console.WriteLine();
         }
         public static void WriteWithHighlight(string text)
@@ -130,8 +210,8 @@ namespace projet_algo
             do
             {
                 Console.Clear();
-                WriteLineWithUnderline(message, '-');
-                Console.WriteLine();
+                Console.SetCursorPosition(0, Console.WindowHeight / 2 - (options.Length) - 3);
+                WriteLineWithUnderline(message);
 
                 for (int i = 0; i < options.Length; i++)
                 {
