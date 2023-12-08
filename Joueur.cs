@@ -24,7 +24,7 @@ namespace projet_algo
         }
 
         public List<string> MotsTrouves{
-            get{return this.MotsTrouves;}
+            get{return this.motsTrouves;}
             set{this.MotsTrouves = value;}
         }
 
@@ -58,8 +58,11 @@ namespace projet_algo
 
         public string toFile(){
             string strMotsTrouves =""; 
-            foreach(string mot in motsTrouves){
-                strMotsTrouves += mot + ","; 
+            foreach(string mot in motsTrouves)
+            {
+                if(mot != motsTrouves.Last())
+                    strMotsTrouves += mot + ",";
+                else strMotsTrouves += mot; 
             }
             return($"{this.nom};{this.enJeu};{scoresPlateau};{strMotsTrouves}" );
         }
@@ -76,21 +79,37 @@ namespace projet_algo
             }
             return joueur;
         }
-
-        public void AddScore(int val){
-                scoresPlateau += val;
+        public void AddScore(string mot){
+                scoresPlateau += PointsMot(mot);
         }
         public static int PointsMot(string mot)
         {
-            int scores  = 0 ; 
-            string[]  lignes = File.ReadAllLines("Lettre.txt");
-            foreach(string ligne in lignes)
+            try 
             {
-                scores += int.Parse(ligne.Split(',')[2]);
-            }
-            return scores;
+                int scores  = 0 ; 
+                int i = 0;
+                mot = mot.ToUpper();
+                string[]  lignes = File.ReadAllLines("Lettre.txt");
+                for (i = 0; i < mot.Length; i++)
+                {
+                    foreach(string ligne in lignes)
+                    {
+                        string[] mots = ligne.Split(',');
+                        if(mot[i] == char.Parse(mots[0]))
+                        {
+                            scores += int.Parse(mots[2]);
+                        }
+                    }
+                }
+                return scores;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Erreur : " + e.Message);
+                return 0;
+            }
+            
         }
-
         public bool Contient(string mot){
             if(motsTrouves.Contains(mot)){
                 return true ; 
@@ -98,10 +117,6 @@ namespace projet_algo
             else{
                 return false;
             } 
-
-            
         }
-
-
     }
 }

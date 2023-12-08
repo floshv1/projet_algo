@@ -24,6 +24,7 @@ namespace projet_algo
         {
             this.nom = SaisiePlateau("Entrez le nom de la Partie : ");
             this.joueur1 = new Joueur(SaisieJoueur("Entrez le nom du joueur 1 : "));
+            joueur1.EnJeu = true;
             this.joueur2 = new Joueur(SaisieJoueur("Entrez le nom du joueur 2 : "));
             DefinirTaille();
             DefinirLangue();
@@ -50,48 +51,29 @@ namespace projet_algo
                 }
             }
         }
-        public static void BoucleJeu(Jeu session)
+        public static bool BoucleJeu(Jeu session)
         {
-            if(session.joueur1.EnJeu == true)
+            while(session.FinDuJeu() == false)
             {
-                Thread.Sleep(500);
-                session.Jouer(session.joueur1);
-                if(Program.jump != Program.Jump.Continue) return;
-                AuTourDe(session,"joueur2");
-                session.SaveGameToCSV($"Save/save{session.nom}.csv");
-                if (session.plateau.estVide() == true)
+                if(session.joueur1.EnJeu == true)
                 {
-                    Console.WriteLine("Le plateau est vide");
-                    session.joueur1.EnJeu = false;
-                    session.joueur2.EnJeu = false;
-                }else BoucleJeu(session);
+                    Thread.Sleep(2000);
+                    session.Jouer(session.joueur1);
+                    AuTourDe(session,"joueur2");
+                    session.SaveGameToCSV($"Save/save{session.nom}.csv");
+                    BoucleJeu(session);
+                }
+                else if(session.joueur2.EnJeu == true)
+                {
+                    Thread.Sleep(2000);
+                    session.Jouer(session.joueur2);
+                    AuTourDe(session,"joueur1");
+                    session.SaveGameToCSV($"Save/save{session.nom}.csv");
+                    BoucleJeu(session);
+                }
             }
-            else if(session.joueur2.EnJeu == true)
-            {
-                Thread.Sleep(500);
-                session.Jouer(session.joueur2);
-                if(Program.jump != Program.Jump.Continue) return;
-                AuTourDe(session,"joueur1");
-                session.SaveGameToCSV($"Save/save{session.nom}.csv");
 
-                if (session.plateau.estVide() == true)
-                {
-                    Console.WriteLine("Le plateau est vide");
-                    session.joueur1.EnJeu = false;
-                    session.joueur2.EnJeu = false;
-                }else BoucleJeu(session);
-            }
-            else
-            {
-                Thread.Sleep(500);
-                AuTourDe(session,"joueur1");
-                session.SaveGameToCSV($"Save/save{session.nom}.csv");
-                session.Jouer(session.joueur1);
-                if(Program.jump != Program.Jump.Continue) return;
-                AuTourDe(session,"joueur2");
-                session.SaveGameToCSV($"Save/save{session.nom}.csv");
-                BoucleJeu(session);
-            }
+            return true;
         }
         public static void AuTourDe(Jeu session,string nomJoueur)
         {
@@ -126,10 +108,10 @@ namespace projet_algo
         public void DefinirTaille()
         {
             Console.Clear();
-            switch(Interface.Menu("Taille du plateau", new string[] {"5 x 5","8 x 8", "10 x 10" }))
+            switch(Interface.Menu("Taille du plateau", new string[] {"6 x 6","8 x 8", "10 x 10" }))
             {
                 case 0:
-                    plateau = new Plateau(5,5);
+                    plateau = new Plateau(6,6);
                     break;
                 case 1:
                     plateau = new Plateau(8,8);
@@ -139,6 +121,7 @@ namespace projet_algo
                     break;
             }
         }
+
         public void DefinirTemps()
         {
             Console.Clear();
@@ -155,15 +138,20 @@ namespace projet_algo
                     break;
             }
         }
+
         public void Jouer(Joueur joueur)
         {
             int cpt = 5;
             string mot = "";
             bool verif = false;
+
             Console.Clear();
+            Console.SetCursorPosition(0, Console.WindowHeight / 2 - 3);
             dico.Tri_Fusion_Dico();
+
             Interface.CenterText($"C'est au tour de {joueur.Nom} de jouer.");
             Interface.CenterText($"Tu as {temps} secondes pour touver un mot pour chercher un mot.");
+
             do
             {
                 Console.Write("{0,"+((Console.WindowWidth / 2) - ("Commence dans : ".Length / 2)) + "}","");
@@ -172,18 +160,26 @@ namespace projet_algo
                 Console.Write("\r");
                 cpt--;
             } while(cpt > 0);
+
+            Console.Clear();
+
             DateTime debut = DateTime.Now;
             TimeSpan duree = TimeSpan.FromSeconds(temps);
             DateTime fin = debut + duree;
+
             do
             {
-                Interface.CenterText($"{fin - DateTime.Now}");
+                Console.SetCursorPosition(0, Console.WindowHeight / 2 - plateau.Matrice.GetLength(0) / 2 - 1);
+                Interface.CenterText($"{fin-DateTime.Now}");
                 Interface.AffichePlateau(plateau.Matrice);
+
                 Console.Write("\n");
                 Console.Write("{0,"+((Console.WindowWidth / 2) - ("Entrez un mot : ".Length / 2)) + "}","");
                 Console.Write("Entrez un mot : ");
                 mot = Console.ReadLine();
+
                 Console.Clear();
+                Console.SetCursorPosition(0, Console.WindowHeight / 2 - plateau.Matrice.GetLength(0) / 2 - 2);
                 if(mot != null && mot != "")
                 {
                     if(mot != "!")
@@ -200,7 +196,7 @@ namespace projet_algo
                                 {
                                     verif = true;
                                     joueur.AddMot(mot);
-                                    joueur.AddScore(mot.Length);
+                                    joueur.AddScore(mot);
                                     plateau.GlisserLettres();
                                     Interface.CenterText("Le mot a été trouvé");
                                 }
@@ -211,19 +207,30 @@ namespace projet_algo
                     }
                     else
                     {
-                        switch(Interface.Menu("MENU", new string[] { "Reprendre","Passer son tour", "Quitter la partie"})){
+                        switch(Interface.Menu("MENU", new string[] { "Reprendre","Voir Score","Passer son tour", "Quitter la partie"})){
                             case 0:
                                 Console.Clear();
                                 break;
                             case 1:
+                                do
+                                {
+                                    Interface.AfficherScore("Score",this );
+                                    Interface.CenterText("Retour au jeu");
+
+                                }while(Console.ReadKey(true).Key != ConsoleKey.Enter);
+
                                 Console.Clear();
-                                Interface.CenterText("Vous avez passé votre tour");
-                                verif = true;
                                 break;
                             case 2:
                                 Console.Clear();
+                                Interface.CenterText("Vous avez passé votre tour");
+                                joueur.ScoresPlateau -= 2;
+                                verif = true;
+                                break;
+                            case 3:
+                                Console.Clear();
                                 Interface.CenterText("Vous avez quitté la partie");
-                                Program.jump = Program.Jump.Main_Menu;
+                                Interface.MainMenu();
                                 verif = true;
                                 break;
                         }
@@ -242,30 +249,32 @@ namespace projet_algo
             }
             Interface.CenterText("Fin du tour");
         }
-        public static string SaisieJoueur(string message)
+        public string SaisieJoueur(string message)
         {
             string nomJoueur = "";
             do
             {
+                Console.SetCursorPosition(0, Console.WindowHeight / 2 - 4);
                 Interface.CenterText(message);
                 Console.Write("{0,"+((Console.WindowWidth / 2) - (message.Length / 2)) + "}","");
                 Console.Write("> ");
                 nomJoueur = Console.ReadLine();
-                Thread.Sleep(500);
+                Thread.Sleep(200);
                 Console.Clear();
             } while (nomJoueur == "");
             return nomJoueur;
         }
-        public static string SaisiePlateau(string message)
+        public string SaisiePlateau(string message)
         {
-            string nomPlateau = "";
+            string nomPlateau = "";          
             do
             {
-                Interface.CenterText(message);
+                Console.SetCursorPosition(0, Console.WindowHeight / 2 - 4);
+                Interface.WriteLineWithUnderline(message);
                 Console.Write("{0,"+((Console.WindowWidth / 2) - (message.Length / 2)) + "}","");
                 Console.Write("> ");
                 nomPlateau = Console.ReadLine();
-                Thread.Sleep(500);
+                Thread.Sleep(200);
                 Console.Clear();
             } while (nomPlateau == "");
             return nomPlateau;
@@ -295,15 +304,10 @@ namespace projet_algo
             }
             sw.Close();
         }
-        public void AfficherScore()
-        {
-            Interface.CenterText($"Score de {joueur1.Nom} : {joueur1.ScoresPlateau}");
-            Interface.CenterText($"Score de {joueur2.Nom} : {joueur2.ScoresPlateau}");
-        }
         public bool FinDuJeu()
         {
             bool fin = false;
-            if (joueur1.EnJeu == false && joueur2.EnJeu == false)
+            if (plateau.estVide() == true)
             {
                 fin = true;
             }
