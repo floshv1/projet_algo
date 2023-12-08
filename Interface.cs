@@ -29,31 +29,73 @@ namespace projet_algo
         switch(choix)
         {
             case 0:
+                Charger();
                 break;
             case 1:
- 
+                Console.Clear();
+                Jeu session = new Jeu(8,8);
+                Jeu.BoucleJeu(session);
                 break;
             case 2:
-                Console.Clear();
-                string regle  = " Règle du Jeu :"+"\n - Vous devrez écrire entièrement le mot et appuyer sur la touche Entrée."+"\n-Vos points sont attriubué en fonction de la rareté de la lettre";
-                Console.Write(regle);
-                Console.WriteLine();
-                Console.WriteLine();
-                Console.WriteLine("\n\nPress Enter to get to the menu.");
-                if (Console.ReadKey(true).Key == ConsoleKey.Enter)
-                {
-                    Console.Clear();
-                    MainMenu();
-                }
+                regle();
                 break;
             case 3:
                 Sortir();
                 break;
         }
     }
+        public static void Charger()
+        {
+            Console.Clear();
+            string nomDossier = "Save";
+            string[] fichiers = null;
+            string[] options = null;
+            int i = 0;
+            if (Directory.Exists(nomDossier))
+            {
+                fichiers = Directory.GetFiles(nomDossier);
+                options = new string[fichiers.Length+1];
+                foreach (string fichier in fichiers)
+                {   
+                    options[i] = Path.GetFileName(fichier);
+                    i++;
+                }
+                options[i] = "Retour";
+                int Choix = Menu("Choisir une sauvegarde : ", options);
+                if (Choix< options.Length-1)
+                {
+                    Jeu session = new Jeu(fichiers[Choix]);
+                    Jeu.BoucleJeu(session);
+                }
+                else
+                {
+                    Console.Clear();
+                    MainMenu();
+                }
+            }
+            else
+            {
+                Console.WriteLine("Le dossier n'existe pas");
+            }
+        }
+        public static void regle()
+        {
+            Console.Clear();
+            CenterText("Règle du Jeu :");
+            CenterText(" - Vous devrez écrire entièrement le mot et appuyer sur la touche Entrée.");
+            CenterText("-Vos points sont attriubué en fonction de la rareté de la lettre");
+            Console.WriteLine();
+            CenterText("Press Enter to get to the menu.");
+                if (Console.ReadKey(true).Key == ConsoleKey.Enter)
+                {
+                    Console.Clear();
+                    MainMenu();
+                }
+        }
         public static void Sortir()
         {
-            Console.WriteLine("À Bientôt");
+            Console.Clear();
+            CenterText("À Bientôt");
             Thread.Sleep(1000);
             Environment.Exit(0);
         }
@@ -136,6 +178,20 @@ namespace projet_algo
             }
 
             Console.WriteLine("\n");
+        }
+        public static void AffichePlateau(char[,] matrice)
+        {
+            Console.WriteLine();
+            for (int i = 0; i < matrice.GetLength(0); i++)
+            {
+                Console.Write("{0,"+((Console.WindowWidth / 2) - (matrice.GetLength(1))) + "}","");
+                for (int j = 0; j < matrice.GetLength(1); j++)
+                {
+                    Console.Write(matrice[i, j] + " ");
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine();
         }
     }
 }
