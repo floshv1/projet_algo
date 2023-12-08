@@ -157,6 +157,7 @@ namespace projet_algo
                     {
                         switch(Interface.Menu("MENU", new string[] { "Reprendre","Passer son tour", "Quitter la partie"})){
                             case 0:
+                                Console.Clear();
                                 break;
                             case 1:
                                 Interface.CenterText("Vous avez passé votre tour");

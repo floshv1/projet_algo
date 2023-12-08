@@ -29,9 +29,10 @@ namespace projet_algo
         switch(choix)
         {
             case 0:
+                Charger();
                 break;
             case 1:
-            Console.Clear();
+                Console.Clear();
                 Jeu session = new Jeu(8,8);
                 Jeu.BoucleJeu(session);
                 break;
@@ -45,8 +46,37 @@ namespace projet_algo
     }
         public static void Charger()
         {
-            
-
+            Console.Clear();
+            string nomDossier = "Save";
+            string[] fichiers = null;
+            string[] options = null;
+            int i = 0;
+            if (Directory.Exists(nomDossier))
+            {
+                fichiers = Directory.GetFiles(nomDossier);
+                options = new string[fichiers.Length+1];
+                foreach (string fichier in fichiers)
+                {   
+                    options[i] = Path.GetFileName(fichier);
+                    i++;
+                }
+                options[i] = "Retour";
+                int Choix = Menu("Choisir une sauvegarde : ", options);
+                if (Choix< options.Length-1)
+                {
+                    Jeu session = new Jeu(fichiers[Choix]);
+                    Jeu.BoucleJeu(session);
+                }
+                else
+                {
+                    Console.Clear();
+                    MainMenu();
+                }
+            }
+            else
+            {
+                Console.WriteLine("Le dossier n'existe pas");
+            }
         }
         public static void regle()
         {
@@ -64,7 +94,8 @@ namespace projet_algo
         }
         public static void Sortir()
         {
-            Console.WriteLine("À Bientôt");
+            Console.Clear();
+            CenterText("À Bientôt");
             Thread.Sleep(1000);
             Environment.Exit(0);
         }
