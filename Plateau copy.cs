@@ -59,7 +59,7 @@ namespace projet_algo
             while (line != null)
             {
                 string[] lineSplit = line.Split(',');
-                int occurenceMax = Convert.ToInt32( double.Parse(lineSplit[1])* nbrLettre / 100); 
+                int occurenceMax = int.Parse(lineSplit[1]) ; 
 
                 for (int i = 0; i < occurenceMax; i++)
                 {
@@ -116,15 +116,12 @@ namespace projet_algo
                         estMaj = true;
                     }
                 }
-                if(!verif)
-                {
-                    Console.WriteLine($"Erreur : Le mot '{mot}' n'est pas dans le plateau.");
-                }
+                
                 return verif;
             }
             catch(IndexOutOfRangeException e)
             {
-                throw;
+                return false;
             }
             
         }
@@ -205,7 +202,9 @@ namespace projet_algo
                             matrice[i, j] = matrice[i - 1, j];
                             matrice[i - 1, j] = ' ';
                             lettreDeplacee = true;
-                            Console.Write(toString());
+                            Console.SetCursorPosition(0, Console.WindowHeight / 2 - Matrice.GetLength(0) / 2 - 1);
+                            Interface.CenterText("Glissement en cours...");
+                            Interface.AffichePlateau(Matrice);
                             Thread.Sleep(100);
                         }
                     }
