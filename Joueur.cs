@@ -80,6 +80,16 @@ namespace projet_algo
         public void AddScore(int val){
                 scoresPlateau += val;
         }
+        public static int PointsMot(string mot)
+        {
+            int scores  = 0 ; 
+            string[]  lignes = File.ReadAllLines("Lettre.txt");
+            foreach(string ligne in lignes)
+            {
+                scores += int.Parse(ligne.Split(',')[2]);
+            }
+            return scores;
+        }
 
         public bool Contient(string mot){
             if(motsTrouves.Contains(mot)){

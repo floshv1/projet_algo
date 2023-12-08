@@ -59,7 +59,7 @@ namespace projet_algo
             while (line != null)
             {
                 string[] lineSplit = line.Split(',');
-                int occurenceMax = Convert.ToInt32( double.Parse(lineSplit[1])* nbrLettre / 100); 
+                double occurenceMax = Math.Round(double.Parse(lineSplit[1])* nbrLettre/100, MidpointRounding.AwayFromZero); 
 
                 for (int i = 0; i < occurenceMax; i++)
                 {

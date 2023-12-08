@@ -17,12 +17,23 @@ namespace projet_algo
         {
             this.langue = langue;
             string fileName = "Mots_" + langue + ".txt";
-            ReadFile(fileName);
+            if (File.Exists(fileName))
+            {
+                ReadFile(fileName);
+            }
+            else
+            {
+                Interface.CenterText($"Le fichier {fileName} n'existe pas");
+            }
         }
 
         public List<string[]> ListeMots 
         { 
             get{ return listeMots;}
+        }
+        public string Langue
+        {
+            get { return langue; }
         }
 
         public void ReadFile(string fileName)

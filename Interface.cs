@@ -40,8 +40,14 @@ namespace projet_algo
                 break;
             case 1:
                 Console.Clear();
-                Jeu session = new Jeu(8,8);
+                Jeu session = new Jeu();
                 Jeu.BoucleJeu(session);
+                if (session.FinDuJeu())
+                {
+                    Console.Clear();
+                    CenterText("Fin du jeu");
+                    session.AfficherScore();
+                }
                 break;
             case 2:
                 regle();
@@ -73,6 +79,12 @@ namespace projet_algo
                 {
                     Jeu session = new Jeu(fichiers[Choix]);
                     Jeu.BoucleJeu(session);
+                    if (session.FinDuJeu())
+                    {
+                        Console.Clear();
+                        CenterText("Fin du jeu");
+                        session.AfficherScore();
+                    }
                 }
                 else
                 {
