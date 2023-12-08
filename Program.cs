@@ -1,4 +1,5 @@
-﻿namespace projet_algo // Note: actual namespace depends on the project name.
+﻿using System.Security.AccessControl;
+namespace projet_algo // Note: actual namespace depends on the project name.
 {
     internal class Program
     {
@@ -6,6 +7,15 @@
         {
             Dictionnaire dico = new Dictionnaire("Français");
             Console.WriteLine(dico.toString());
+
+            if (dico.RecheDichoDico(""))
+            {
+                Console.WriteLine("Trouvé");
+            }
+            else
+            {
+                Console.WriteLine("Pas Trouvé");
+            }
 
             /*foreach (string ligne in dico.ListeMots[24])
             {
