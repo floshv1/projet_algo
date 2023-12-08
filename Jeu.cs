@@ -178,6 +178,7 @@ namespace projet_algo
                 Console.WriteLine();
                 
             }while(DateTime.Now < fin && verif == false);
+            Interface.CenterText("Fin du tour");
         }
         public static string SaisieJoueur(string message)
         {

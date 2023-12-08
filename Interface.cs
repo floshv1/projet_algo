@@ -8,16 +8,23 @@ using System.Threading.Tasks;
 namespace projet_algo
 {
     public class Interface
-{
+    {
         static ConsoleKeyInfo key;
 
         public static void Affichage()
         {
             Console.Clear();
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.BackgroundColor = ConsoleColor.Black;
-            AfficheTitre("Titre.txt");
-            Console.WriteLine("\n\nPress Enter to get to the menu.");
+            for (int i = 0; i < 10; i++)
+            {
+                Console.ResetColor();
+                Console.ForegroundColor = RandomColor();
+                Console.BackgroundColor = RandomColor();
+                Console.Clear();
+                AfficheTitre("Titre.txt");
+                Thread.Sleep(200);
+            }
+            CenterText("Press Enter to get to the menu.");
+            Console.ResetColor();
             Console.ReadLine();
         }   
 
