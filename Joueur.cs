@@ -77,10 +77,37 @@ namespace projet_algo
             return joueur;
         }
 
-        public void AddScore(int val){
-                scoresPlateau += val;
+        public void AddScore(string mot){
+                scoresPlateau += PointsMot(mot);
         }
-
+        public static int PointsMot(string mot)
+        {
+            try 
+            {
+                int scores  = 0 ; 
+                int i = 0;
+                mot = mot.ToUpper();
+                string[]  lignes = File.ReadAllLines("Lettre.txt");
+                for (i = 0; i < mot.Length; i++)
+                {
+                    foreach(string ligne in lignes)
+                    {
+                        string[] mots = ligne.Split(',');
+                        if(mot[i] == char.Parse(mots[0]))
+                        {
+                            scores += int.Parse(mots[2]);
+                        }
+                    }
+                }
+                return scores;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Erreur : " + e.Message);
+                return 0;
+            }
+            
+        }
         public bool Contient(string mot){
             if(motsTrouves.Contains(mot)){
                 return true ; 
