@@ -223,13 +223,16 @@ namespace projet_algo
                                 break;
                             case 2:
                                 Console.Clear();
+                                Console.SetCursorPosition(0, Console.WindowHeight / 2 );
                                 Interface.CenterText("Vous avez passé votre tour");
                                 joueur.ScoresPlateau -= 2;
                                 verif = true;
                                 break;
                             case 3:
                                 Console.Clear();
+                                Console.SetCursorPosition(0, Console.WindowHeight / 2 );
                                 Interface.CenterText("Vous avez quitté la partie");
+                                Thread.Sleep(2000);
                                 Interface.MainMenu();
                                 verif = true;
                                 break;
@@ -238,7 +241,7 @@ namespace projet_algo
                 }
                 else 
                 {
-                    Interface.CenterText("Le mot est vide");
+                    Interface.CenterText("Le mot est vide ");
                 }
                 Console.WriteLine();
                 
@@ -255,7 +258,7 @@ namespace projet_algo
             do
             {
                 Console.SetCursorPosition(0, Console.WindowHeight / 2 - 4);
-                Interface.CenterText(message);
+                Interface.WriteLineWithUnderline(message);
                 Console.Write("{0,"+((Console.WindowWidth / 2) - (message.Length / 2)) + "}","");
                 Console.Write("> ");
                 nomJoueur = Console.ReadLine();
