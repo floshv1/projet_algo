@@ -24,7 +24,7 @@ namespace projet_algo
         }
 
         public List<string> MotsTrouves{
-            get{return this.MotsTrouves;}
+            get{return this.motsTrouves;}
             set{this.MotsTrouves = value;}
         }
 
@@ -58,8 +58,11 @@ namespace projet_algo
 
         public string toFile(){
             string strMotsTrouves =""; 
-            foreach(string mot in motsTrouves){
-                strMotsTrouves += mot + ","; 
+            foreach(string mot in motsTrouves)
+            {
+                if(mot != motsTrouves.Last())
+                    strMotsTrouves += mot + ",";
+                else strMotsTrouves += mot; 
             }
             return($"{this.nom};{this.enJeu};{scoresPlateau};{strMotsTrouves}" );
         }
@@ -76,7 +79,6 @@ namespace projet_algo
             }
             return joueur;
         }
-
         public void AddScore(string mot){
                 scoresPlateau += PointsMot(mot);
         }
@@ -115,10 +117,6 @@ namespace projet_algo
             else{
                 return false;
             } 
-
-            
         }
-
-
     }
 }
