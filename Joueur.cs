@@ -12,6 +12,7 @@ namespace projet_algo
         bool enJeu;
         private List<string> motsTrouves; 
         private int scoresPlateau;
+        private bool skip;
 
 
         public string Nom{
@@ -32,11 +33,18 @@ namespace projet_algo
             get{return this.scoresPlateau;}
             set{this.scoresPlateau = value;}
         }
+        public bool Skip{
+            get{return this.skip;}
+            set{this.skip = value;}
+        }
+
 
         public Joueur(string nom){
             if(nom != null){
                 this.nom  = nom ; 
                 this.motsTrouves = new List<string>();
+                this.enJeu = false;
+                this.skip = false;
                 this.scoresPlateau = 0;
             }
             else{
@@ -64,16 +72,17 @@ namespace projet_algo
                     strMotsTrouves += mot + ",";
                 else strMotsTrouves += mot; 
             }
-            return($"{this.nom};{this.enJeu};{scoresPlateau};{strMotsTrouves}" );
+            return($"{this.nom};{this.enJeu};{skip};{scoresPlateau};{strMotsTrouves}" );
         }
 
         public static Joueur StringToJoueur(string ligne){
             string[] lignes = ligne.Split(';');
             Joueur joueur = new Joueur(lignes[0]);
             joueur.enJeu = bool.Parse(lignes[1]);
-            joueur.scoresPlateau = int.Parse(lignes[2]);
+            joueur.skip = bool.Parse(lignes[2]);
+            joueur.scoresPlateau = int.Parse(lignes[3]);
 
-            string[] strMotsTrouves = lignes[3].Split(',');
+            string[] strMotsTrouves = lignes[4].Split(',');
             foreach(string mot in strMotsTrouves){
                 joueur.motsTrouves.Add(mot);
             }

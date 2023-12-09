@@ -13,28 +13,7 @@ namespace projet_algo
     {
         static ConsoleKeyInfo key;
 
-        public static void Affichage()
-        {
-            Console.Clear();
-            for (int i = 0; i < 10; i++)
-            {
-                Console.ResetColor();
-                Console.ForegroundColor = RandomColor();
-                Console.BackgroundColor = RandomColor();
-                Console.Clear();
-                AfficheTitre("Titre.txt");
-                Thread.Sleep(200);
-            }
-            CenterText("Press Enter to get to the menu.");
-            
-            do
-            {
-                AfficheTitre("Titre.txt");
-                CenterText("Press Enter to get to the menu.");               
-            }while(Console.ReadKey(true).Key != ConsoleKey.Enter);
-            Console.ResetColor();
-            
-        }   
+
         public static void MainMenu()
         {
         string[] options = { "Jouer à partir d'un fichier", "Jouer à partir d'un plateau généré aléatoirement","Règle du Jeu","Sortir" };
@@ -71,6 +50,28 @@ namespace projet_algo
                 break;
         }
     }
+        public static void Affichage()
+        {
+            Console.Clear();
+            for (int i = 0; i < 10; i++)
+            {
+                Console.ResetColor();
+                Console.ForegroundColor = RandomColor();
+                Console.BackgroundColor = RandomColor();
+                Console.Clear();
+                AfficheTitre("Titre.txt");
+                Thread.Sleep(200);
+            }
+            CenterText("Appuyez sur Entrée");
+            
+            do
+            {
+                AfficheTitre("Titre.txt");
+                CenterText("Appuyez sur Entrée");               
+            }while(Console.ReadKey(true).Key != ConsoleKey.Enter);
+            Console.ResetColor();
+            
+        }   
         public static void Charger()
         {
             Console.Clear();
@@ -149,10 +150,26 @@ namespace projet_algo
         public static void Sortir()
         {
             Console.Clear();
-            CenterText("À Bientôt");
-            Thread.Sleep(1000);
+            for (int i = 0; i < 10; i++)
+            {
+                Console.ResetColor();
+                Console.ForegroundColor = RandomColor();
+                Console.BackgroundColor = RandomColor();
+                Console.Clear();
+                AfficheTitre("TitreFin.txt");
+                Thread.Sleep(200);
+            }
+            CenterText("Appuyez sur Entrée pour sortir.");
+            
+            do
+            {
+                AfficheTitre("TitreFin.txt");
+                CenterText("Appuyez sur Entrée pour sortir.");               
+            }while(Console.ReadKey(true).Key != ConsoleKey.Enter);
+            Console.ResetColor();
+            Console.Clear();
             Environment.Exit(0);
-        }
+        }   
         public static void AfficherScore(string txt, Jeu session)
         {
             string strMotJ1 = "";
@@ -176,7 +193,7 @@ namespace projet_algo
             {
                 strMotJ2 += mot + " ";
             }
-            Interface.CenterText(strMotJ1);
+            Interface.CenterText(strMotJ2);
             Console.WriteLine();
         }
         public static ConsoleColor RandomColor()

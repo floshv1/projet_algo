@@ -33,23 +33,35 @@ namespace projet_algo
         }
         public Jeu(string filename)
         {
-            string[] lines = File.ReadAllLines(filename);
-            this.nom = lines[0];
-            this.joueur1 = Joueur.StringToJoueur(lines[1]);
-            this.joueur2 = Joueur.StringToJoueur(lines[2]);
-            this.dico = new Dictionnaire(lines[3]);
-            this.temps = int.Parse(lines[4]);
-            plateau = new Plateau();
-            
-            plateau.Matrice = new char[lines.Length - 5, lines[5].Split(';').Length];
-            for(int i = 5; i < lines.Length; i++)
+            try
             {
-                string[] lineSplit = lines[i].Split(';');
-                for(int j = 0; j < lineSplit.Length; j++)
+                string[] lines = File.ReadAllLines(filename);
+                this.nom = lines[0];
+                this.joueur1 = Joueur.StringToJoueur(lines[1]);
+                this.joueur2 = Joueur.StringToJoueur(lines[2]);
+                this.dico = new Dictionnaire(lines[3]);
+                this.temps = int.Parse(lines[4]);
+                plateau = new Plateau();
+
+                plateau.Matrice = new char[lines.Length - 5, lines[5].Split(';').Length];
+                for(int i = 5; i < lines.Length; i++)
                 {
-                    plateau.Matrice[i-5,j] = lineSplit[j][0];
+                    string[] lineSplit = lines[i].Split(';');
+                    for(int j = 0; j < lineSplit.Length; j++)
+                    {
+                        plateau.Matrice[i-5,j] = lineSplit[j][0];
+                    }
                 }
             }
+            catch (Exception e)
+            {
+                Console.Clear();
+                Console.SetCursorPosition(0, Console.WindowHeight / 2);
+                Interface.CenterText("Mauvais format de fichier");
+                Thread.Sleep(2000);
+                Interface.MainMenu();
+            }
+            
         }
         public static bool BoucleJeu(Jeu session)
         {
@@ -144,6 +156,7 @@ namespace projet_algo
             int cpt = 5;
             string mot = "";
             bool verif = false;
+            joueur.Skip = false;
 
             Console.Clear();
             Console.SetCursorPosition(0, Console.WindowHeight / 2 - 3);
@@ -169,7 +182,9 @@ namespace projet_algo
 
             do
             {
-                Console.SetCursorPosition(0, Console.WindowHeight / 2 - plateau.Matrice.GetLength(0) / 2 - 1);
+                Console.SetCursorPosition(0, Console.WindowHeight / 2 - plateau.Matrice.GetLength(0) / 2 - 3);
+                Console.WriteLine();
+                Interface.CenterText($"C'est au tour de {joueur.Nom} de jouer.");
                 Interface.CenterText($"{fin-DateTime.Now}");
                 Interface.AffichePlateau(plateau.Matrice);
 
@@ -179,7 +194,7 @@ namespace projet_algo
                 mot = Console.ReadLine();
 
                 Console.Clear();
-                Console.SetCursorPosition(0, Console.WindowHeight / 2 - plateau.Matrice.GetLength(0) / 2 - 2);
+                Console.SetCursorPosition(0, Console.WindowHeight / 2 - plateau.Matrice.GetLength(0) / 2 - 4);
                 if(mot != null && mot != "")
                 {
                     if(mot != "!")
@@ -225,6 +240,7 @@ namespace projet_algo
                                 Console.Clear();
                                 Console.SetCursorPosition(0, Console.WindowHeight / 2 );
                                 Interface.CenterText("Vous avez passé votre tour");
+                                joueur.Skip = true;
                                 joueur.ScoresPlateau -= 2;
                                 verif = true;
                                 break;
@@ -310,7 +326,7 @@ namespace projet_algo
         public bool FinDuJeu()
         {
             bool fin = false;
-            if (plateau.estVide() == true)
+            if (plateau.estVide() == true || (joueur1.Skip && joueur2.Skip))
             {
                 fin = true;
             }

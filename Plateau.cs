@@ -244,13 +244,16 @@ namespace projet_algo
         public bool estVide()
         {
             bool verif = true;
-            for(int i = 0; i < matrice.GetLength(0); i++)
+            if (matrice != null || matrice.Length!=0)
             {
-                for(int j = 0; j < matrice.GetLength(1); j++)
+                for(int i = 0; i < matrice.GetLength(0); i++)
                 {
-                    if(matrice[i,j] != ' ')
+                    for(int j = 0; j < matrice.GetLength(1); j++)
                     {
-                        verif = false;
+                        if(matrice[i,j] != ' ')
+                        {
+                            verif = false;
+                        }
                     }
                 }
             }
