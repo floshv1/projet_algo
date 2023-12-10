@@ -13,7 +13,6 @@ namespace projet_algo
     {
         static ConsoleKeyInfo key;
 
-
         public static void MainMenu()
         {
         string[] options = { "Jouer à partir d'un fichier", "Jouer à partir d'un plateau généré aléatoirement","Règle du Jeu","Sortir" };
@@ -125,7 +124,7 @@ namespace projet_algo
             { 
                 Console.Clear();
                 Console.SetCursorPosition(0, Console.WindowHeight / 2 - 9);
-                WriteLineWithUnderline("Règle du Jeu");
+                EcritSouligner("Règle du Jeu");
                 CenterText("- Vous aurez un temps limité pour trouver un mot dans le plateau (30, 45 ou 60 secondes).         ");
                 CenterText("- La recherche de mot commence a partie de la base du plateau.                                    ");
                 CenterText("- Vous devrez écrire entièrement le mot et appuyer sur la touche Entrée.                          \n");
@@ -171,44 +170,18 @@ namespace projet_algo
             Console.Clear();
             Environment.Exit(0);
         }   
-        public static void AfficherScore(string txt, Jeu session)
-        {
-            string strMotJ1 = "";
-            string strMotJ2 = "";
-            Console.Clear();
-            Console.SetCursorPosition(0, Console.WindowHeight / 2 - 9);
-            Interface.WriteLineWithUnderline(txt);
-
-            Interface.CenterText($"Score de {session.joueur1.Nom} : {session.joueur1.ScoresPlateau}");
-            Interface.CenterText($"Mots trouvés : {session.joueur1.MotsTrouves.Count}");
-            foreach(string mot in session.joueur1.MotsTrouves)
-            {
-                strMotJ1 += mot + " ";
-            }
-            Interface.CenterText(strMotJ1);
-            Console.WriteLine();
-
-            Interface.CenterText($"Score de {session.joueur2.Nom} : {session.joueur2.ScoresPlateau}");
-            Interface.CenterText($"Mots trouvés : {session.joueur2.MotsTrouves.Count}");
-            foreach(string mot in session.joueur2.MotsTrouves)
-            {
-                strMotJ2 += mot + " ";
-            }
-            Interface.CenterText(strMotJ2);
-            Console.WriteLine();
-        }
         public static ConsoleColor RandomColor()
         {
             ConsoleColor[] colors = (ConsoleColor[])Enum.GetValues(typeof(ConsoleColor));
             return colors[new Random().Next(colors.Length)];
         }
-        public static void WriteLineWithUnderline(string text)
+        public static void EcritSouligner(string text)
         {
             CenterText(text);
             CenterText(new string('-', text.Length+2));
             Console.WriteLine();
         }
-        public static void WriteWithHighlight(string text)
+        public static void EcritSurligner(string text)
         {
             Console.Write("{0,"+((Console.WindowWidth / 2) - (text.Length / 2)) + "}","");
             Console.BackgroundColor = ConsoleColor.Gray;
@@ -229,13 +202,13 @@ namespace projet_algo
             {
                 Console.Clear();
                 Console.SetCursorPosition(0, Console.WindowHeight / 2 - (options.Length) - 3);
-                WriteLineWithUnderline(message);
+                EcritSouligner(message);
 
                 for (int i = 0; i < options.Length; i++)
                 {
                     if (i == selectedOptionIndex)
                     {
-                        WriteWithHighlight(" >> " + options[i] + " << ");
+                        EcritSurligner(" >> " + options[i] + " << ");
                     }
                     else
                     {
@@ -276,6 +249,32 @@ namespace projet_algo
             }
 
             Console.WriteLine("\n");
+        }
+        public static void AfficherScore(string txt, Jeu session)
+        {
+            string strMotJ1 = "";
+            string strMotJ2 = "";
+            Console.Clear();
+            Console.SetCursorPosition(0, Console.WindowHeight / 2 - 9);
+            Interface.EcritSouligner(txt);
+
+            Interface.CenterText($"Score de {session.joueur1.Nom} : {session.joueur1.ScoresPlateau}");
+            Interface.CenterText($"Mots trouvés : {session.joueur1.MotsTrouves.Count}");
+            foreach(string mot in session.joueur1.MotsTrouves)
+            {
+                strMotJ1 += mot + " ";
+            }
+            Interface.CenterText(strMotJ1);
+            Console.WriteLine();
+
+            Interface.CenterText($"Score de {session.joueur2.Nom} : {session.joueur2.ScoresPlateau}");
+            Interface.CenterText($"Mots trouvés : {session.joueur2.MotsTrouves.Count}");
+            foreach(string mot in session.joueur2.MotsTrouves)
+            {
+                strMotJ2 += mot + " ";
+            }
+            Interface.CenterText(strMotJ2);
+            Console.WriteLine();
         }
         public static void AffichePlateau(char[,] matrice)
         {

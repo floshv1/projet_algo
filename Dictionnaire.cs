@@ -10,9 +10,12 @@ namespace projet_algo
 {
     public class Dictionnaire
     {
+        #region Attributs
         string langue;
         List<string[]> listeMots;
-
+        #endregion
+        
+        #region Constructeurs
         public Dictionnaire(string langue)
         {
             this.langue = langue;
@@ -26,7 +29,9 @@ namespace projet_algo
                 Interface.CenterText($"Le fichier {fileName} n'existe pas");
             }
         }
+        #endregion
 
+        #region Propriétés
         public List<string[]> ListeMots 
         { 
             get{ return listeMots;}
@@ -35,7 +40,9 @@ namespace projet_algo
         {
             get { return langue; }
         }
+        #endregion
 
+        #region Méthodes
         public void ReadFile(string fileName)
         {
             listeMots = new List<string[]>();
@@ -178,6 +185,6 @@ namespace projet_algo
             }
             return strLangue + strNombreDeMots;
         }
-
+        #endregion
     }
 }

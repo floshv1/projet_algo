@@ -8,13 +8,15 @@ namespace projet_algo
 {
     public class Joueur
     {
+        #region Attributs
         private string nom ; 
         bool enJeu;
         private List<string> motsTrouves; 
         private int scoresPlateau;
         private bool skip;
+        #endregion
 
-
+        #region Propriétés
         public string Nom{
             get{return this.nom ;}
             set{ this.nom = value;}
@@ -37,8 +39,9 @@ namespace projet_algo
             get{return this.skip;}
             set{this.skip = value;}
         }
+        #endregion
 
-
+        #region Constructeurs
         public Joueur(string nom){
             if(nom != null){
                 this.nom  = nom ; 
@@ -51,7 +54,9 @@ namespace projet_algo
                 Console.WriteLine("Attention aucun nom d'utilisateur entré");
             }
         }
+        #endregion
 
+        #region Méthodes
         public void AddMot(string mot){
             motsTrouves.Add(mot);
         }
@@ -127,5 +132,6 @@ namespace projet_algo
                 return false;
             } 
         }
+        #endregion
     }
 }

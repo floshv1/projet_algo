@@ -13,13 +13,43 @@ namespace projet_algo
 {
     public class Jeu
     {
-        public string nom;
+        #region Attributs
+        string nom;
         public Joueur joueur1;
         public Joueur joueur2;
         Plateau plateau;
         Dictionnaire dico;
         int temps;
+        #endregion
+        
+        #region Propriétés
+        public string Nom
+        {
+            get { return nom; }
+        }
+        public Joueur Joueur1
+        {
+            get { return joueur1; }
+        }
+        public Joueur Joueur2
+        {
+            get { return joueur2; }
+        }
+        public Plateau Plateau
+        {
+            get { return plateau; }
+        }
+        public Dictionnaire Dico
+        {
+            get { return dico; }
+        }
+        public int Temps
+        {
+            get { return temps; }
+        }
+        #endregion
 
+        #region Constructeurs
         public Jeu()
         {
             this.nom = SaisiePlateau("Entrez le nom de la Partie : ");
@@ -61,8 +91,10 @@ namespace projet_algo
                 Thread.Sleep(2000);
                 Interface.MainMenu();
             }
-            
         }
+        #endregion
+        
+        #region Méthodes
         public static bool BoucleJeu(Jeu session)
         {
             while(session.FinDuJeu() == false)
@@ -292,7 +324,7 @@ namespace projet_algo
             do
             {
                 Console.SetCursorPosition(0, Console.WindowHeight / 2 - 4);
-                Interface.WriteLineWithUnderline(message);
+                Interface.EcritSouligner(message);
                 Console.Write("{0,"+((Console.WindowWidth / 2) - (message.Length / 2)) + "}","");
                 Console.Write("> ");
                 nomJoueur = Console.ReadLine();
@@ -307,7 +339,7 @@ namespace projet_algo
             do
             {
                 Console.SetCursorPosition(0, Console.WindowHeight / 2 - 4);
-                Interface.WriteLineWithUnderline(message);
+                Interface.EcritSouligner(message);
                 Console.Write("{0,"+((Console.WindowWidth / 2) - (message.Length / 2)) + "}","");
                 Console.Write("> ");
                 nomPlateau = Console.ReadLine();
@@ -351,5 +383,6 @@ namespace projet_algo
             
             return fin;
         }
+        #endregion
     }
 }

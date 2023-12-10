@@ -42,12 +42,15 @@ namespace projet_algo
         }
         #endregion
 
+        #region Propriétés
         public char[,] Matrice
         {
             get { return matrice; }
             set { matrice = value; }
         }
-        
+        #endregion
+
+        #region Méthodes
         public List<char> ListeLettre(string filename, int ligne, int colonne)
         {
             List<char> listeLettre = new List<char>();
@@ -272,6 +275,6 @@ namespace projet_algo
             }
             return texte;
         }
-    
+        #endregion
     }
 }
