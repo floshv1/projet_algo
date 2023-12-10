@@ -14,35 +14,58 @@ namespace projet_algo
     public class Jeu
     {
         #region Attributs
+        /// <summary> Nom de la partie </summary>
         string nom;
+
+        /// <summary> Joueur 1 </summary>
         public Joueur joueur1;
+
+        /// <summary> Joueur 2 </summary>
         public Joueur joueur2;
+
+        /// <summary> Plateau de jeu </summary>
         Plateau plateau;
+
+        /// <summary> Dictionnaire </summary>
         Dictionnaire dico;
+
+        /// <summary> Temps d'un tour </summary>
         int temps;
         #endregion
         
         #region Propriétés
+
+        /// <summary> Propriété du nom de la partie </summary>
         public string Nom
         {
             get { return nom; }
         }
+
+        /// <summary> Propriété du joueur 1 </summary>
         public Joueur Joueur1
         {
             get { return joueur1; }
         }
+
+        /// <summary> Propriété du joueur 2 </summary>
         public Joueur Joueur2
         {
             get { return joueur2; }
         }
+
+        /// <summary> Propriété du plateau de jeu </summary>
         public Plateau Plateau
         {
             get { return plateau; }
         }
+
+        /// <summary> Propriété du dictionnaire </summary>
         public Dictionnaire Dico
         {
             get { return dico; }
         }
+
+        /// <summary> Propriété du temps d'un tour </summary>
         public int Temps
         {
             get { return temps; }
@@ -50,6 +73,9 @@ namespace projet_algo
         #endregion
 
         #region Constructeurs
+
+        /// <summary> Constructeur du Jeu apr defaut </summary>
+        /// <returns> Un nouveau jeu </returns>
         public Jeu()
         {
             this.nom = SaisiePlateau("Entrez le nom de la Partie : ");
@@ -61,6 +87,10 @@ namespace projet_algo
             DefinirTemps();
             SaveGameToCSV($"Save/save{nom}.csv");
         }
+
+        /// <summary> Constructeur du Jeu à partir d'un fichier </summary>
+        /// <param name="filename"> Nom du fichier </param>
+        /// <returns> Un nouveau jeu </returns>
         public Jeu(string filename)
         {
             try
@@ -95,6 +125,10 @@ namespace projet_algo
         #endregion
         
         #region Méthodes
+
+        /// <summary> Méthode qui lance le jeu </summary>
+        /// <param name="session"> Session de jeu </param>
+        /// <returns> Si le jeu est fini </returns>
         public static bool BoucleJeu(Jeu session)
         {
             while(session.FinDuJeu() == false)
@@ -122,6 +156,11 @@ namespace projet_algo
 
             return true;
         }
+        
+        /// <summary> Méthode qui défini le joueur qui doit jouer </summary>
+        /// <param name="session"> Session de jeu </param>
+        /// <param name="nomJoueur"> Nom du joueur </param>
+        /// <returns> Le joueur qui doit jouer </returns>
         public static void AuTourDe(Jeu session,string nomJoueur)
         {
             if (nomJoueur == "joueur1")
@@ -135,6 +174,9 @@ namespace projet_algo
                 session.joueur2.EnJeu = true;
             }
         }
+        
+        /// <summary> Definie la langue du dictionnaire </summary>
+        /// <returns> La langue du dictionnaire </returns>
         public void DefinirLangue()
         {
             DefinirLangue :
@@ -153,6 +195,9 @@ namespace projet_algo
                     goto DefinirLangue;
             }
         }
+        
+        /// <summary> Definie la taille du plateau </summary>
+        /// <returns> La taille du plateau </returns>
         public void DefinirTaille()
         {
             Console.Clear();
@@ -170,10 +215,12 @@ namespace projet_algo
             }
         }
 
+        /// <summary> Definie le temps d'un tour </summary>
+        /// <returns> Le temps d'un tour </returns>
         public void DefinirTemps()
         {
             Console.Clear();
-            switch(Interface.Menu("Temps de jeu", new string[] {"30 secondes","45 secondes", "60 secondes" }))
+            switch(Interface.Menu("Temps d'un tour", new string[] {"30 secondes","45 secondes", "60 secondes" }))
             {
                 case 0:
                     temps = 30;
@@ -186,6 +233,10 @@ namespace projet_algo
                     break;
             }
         }
+        
+        /// <summary> Méthode qui verifie si le mot entré est bien dans le plateau</summary>
+        /// <param name="joueur"> Joueur qui joue </param>
+        /// <returns> le tour d'un joueur </returns>
         public void Jouer(Joueur joueur)
         {
             int cpt = 5;
@@ -318,6 +369,10 @@ namespace projet_algo
 
             Interface.CenterText("Fin du tour");
         }
+        
+        /// <summary> Méthode qui demande le nom du joueur </summary>
+        /// <param name="message"> Message à afficher </param>
+        /// <returns> Le nom du joueur </returns>
         public string SaisieJoueur(string message)
         {
             string nomJoueur = "";
@@ -333,6 +388,10 @@ namespace projet_algo
             } while (nomJoueur == "");
             return nomJoueur;
         }
+
+        /// <summary> Méthode qui demande le nom de la partie </summary>
+        /// <param name="message"> Message à afficher </param>
+        /// <returns> Le nom de la partie </returns>
         public string SaisiePlateau(string message)
         {
             string nomPlateau = "";          
@@ -348,6 +407,10 @@ namespace projet_algo
             } while (nomPlateau == "");
             return nomPlateau;
         }
+        
+        /// <summary> Méthode qui sauvegarde la partie dans un fichier </summary>
+        /// <param name="nomFichier"> Nom du fichier </param>
+        /// <returns> La partie sauvegardée </returns>
         public void SaveGameToCSV(string nomFichier)
         {            
             StreamWriter sw = new StreamWriter(nomFichier);
@@ -373,6 +436,9 @@ namespace projet_algo
             }
             sw.Close();
         }
+        
+        /// <summary> Méthode qui vérifie si la partie est finie </summary>
+        /// <returns> Si la partie est finie </returns>
         public bool FinDuJeu()
         {
             bool fin = false;

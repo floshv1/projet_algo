@@ -12,7 +12,8 @@ namespace projet_algo
     public class Interface
     {
         static ConsoleKeyInfo key;
-
+        /// <summary> Affiche le menu principale </summary>
+        /// <returns> Le menu principale </returns>
         public static void MainMenu()
         {
         string[] options = { "Jouer à partir d'un fichier", "Jouer à partir d'un plateau généré aléatoirement","Règle du Jeu","Sortir" };
@@ -49,6 +50,9 @@ namespace projet_algo
                 break;
         }
     }
+        
+        /// <summary> AFfichage Personnalisé du titre </summary>
+        /// <returns> Le titre </returns>
         public static void Affichage()
         {
             Console.Clear();
@@ -71,6 +75,9 @@ namespace projet_algo
             Console.ResetColor();
             
         }   
+        
+        /// <summary> Affiche le menu des sauvegardes </summary>
+        /// <returns> Le menu des sauvegardes </returns>
         public static void Charger()
         {
             Console.Clear();
@@ -118,6 +125,9 @@ namespace projet_algo
                 Console.WriteLine("Le dossier n'existe pas");
             }
         }
+        
+        /// <summary> Affiche les règles du jeu </summary>
+        /// <returns> Les règles du jeu </returns>
         public static void regle()
         {
             do
@@ -147,6 +157,9 @@ namespace projet_algo
             
             
         }
+        
+        /// <summary> Affichage personnalisé de sortie de jeu  </summary>
+        /// <returns> Sortie de jeu </returns>
         public static void Sortir()
         {
             Console.Clear();
@@ -170,17 +183,28 @@ namespace projet_algo
             Console.Clear();
             Environment.Exit(0);
         }   
+        
+        /// <summary> Méthode qui retourne une couleur aléatoire </summary>
+        /// <returns> Couleur aléatoire </returns>
         public static ConsoleColor RandomColor()
         {
             ConsoleColor[] colors = (ConsoleColor[])Enum.GetValues(typeof(ConsoleColor));
             return colors[new Random().Next(colors.Length)];
         }
+        
+        /// <summary> Ecrit un texte avec un soulignage </summary>
+        /// <param name="text"> le texte a souligner </param>
+        /// <returns> le texte souligné </returns>
         public static void EcritSouligner(string text)
         {
             CenterText(text);
             CenterText(new string('-', text.Length+2));
             Console.WriteLine();
         }
+        
+        /// <summary> Ecrit un texte avec un surlignage </summary>
+        /// <param name="text"> le texte a surligner </param>
+        /// <returns> le texte surligné </returns>
         public static void EcritSurligner(string text)
         {
             Console.Write("{0,"+((Console.WindowWidth / 2) - (text.Length / 2)) + "}","");
@@ -190,11 +214,20 @@ namespace projet_algo
             Console.ResetColor();
             Console.WriteLine();
         }
+        
+        /// <summary> Ecrit un texte centré </summary>
+        /// <param name="text"> le texte a centrer </param>
+        /// <returns> le texte centré </returns>
         public static void CenterText(string text)
         {
             Console.Write("{0,"+((Console.WindowWidth / 2) - (text.Length / 2)) + "}","");
             Console.WriteLine(text);
         }
+        
+        /// <summary> Affiche un menu bouclé </summary>
+        /// <param name="message"> le message a afficher </param>
+        /// <param name="options"> les options du menu </param>
+        /// <returns> le menu bouclé </returns>
         public static int Menu(string message, string[]options )
         {
             int selectedOptionIndex = 0;
@@ -238,6 +271,10 @@ namespace projet_algo
 
             return selectedOptionIndex;
         }
+        
+        /// <summary> Affiche le titre centré </summary>
+        /// <param name="path"> Fichier contenant un texte special </param>
+        /// <returns> Le titre centré </returns>
         public static void AfficheTitre(string path)
         {
             int i = 0;
@@ -250,6 +287,11 @@ namespace projet_algo
 
             Console.WriteLine("\n");
         }
+        
+        /// <summary> Affiche le score des joueurs </summary>
+        /// <param name="txt"> Le texte a afficher </param>
+        /// <param name="session"> La session de jeu </param>
+        /// <returns> Le score des joueurs </returns>
         public static void AfficherScore(string txt, Jeu session)
         {
             string strMotJ1 = "";
@@ -276,6 +318,10 @@ namespace projet_algo
             Interface.CenterText(strMotJ2);
             Console.WriteLine();
         }
+        
+        /// <summary> Affiche le plateau centré </summary>
+        /// <param name="matrice"> Le plateau </param>
+        /// <returns> Le plateau centré </returns>
         public static void AffichePlateau(char[,] matrice)
         {
             Console.WriteLine();

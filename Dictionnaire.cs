@@ -11,11 +11,16 @@ namespace projet_algo
     public class Dictionnaire
     {
         #region Attributs
+        /// <summary> Langue du dictionnaire </summary>
         string langue;
+        /// <summary> Liste de mots du dictionnaire </summary>
         List<string[]> listeMots;
         #endregion
         
         #region Constructeurs
+        /// <summary> Constructeur du Dictionnaire</summary>
+        /// <param name="langue"> Langue du dictionnaire </param>
+        /// <returns> Un nouveau dictionnaire </returns>
         public Dictionnaire(string langue)
         {
             this.langue = langue;
@@ -32,10 +37,12 @@ namespace projet_algo
         #endregion
 
         #region Propriétés
+        /// <summary> Propriété de la liste de mots du dictionnaire </summary>
         public List<string[]> ListeMots 
         { 
             get{ return listeMots;}
         }
+        /// <summary> Propriété de la langue du dictionnaire </summary>
         public string Langue
         {
             get { return langue; }
@@ -43,6 +50,8 @@ namespace projet_algo
         #endregion
 
         #region Méthodes
+        /// <summary> Méthode qui lit le fichier texte et qui ajoute les mots dans la liste de mots </summary>
+        /// <param name="fileName"> Nom du fichier texte </param>
         public void ReadFile(string fileName)
         {
             listeMots = new List<string[]>();
@@ -57,6 +66,10 @@ namespace projet_algo
             }
             sr.Close();
         }
+        
+        /// <summary> Méthode qui recherche un mot dans le dictionnaire </summary>
+        /// <param name="mot"> Mot à rechercher </param>
+        /// <returns> Si le mot est dans le dictionnaire </returns>
         public bool RecheDichoDico(string mot)
         {
             bool lettreTrouve = false;
@@ -82,6 +95,13 @@ namespace projet_algo
                 return RecheDichoRecursif(listeMots[index], mot, 0, listeMots[index].Length - 1);
             }
         }
+        
+        /// <summary> Méthode qui recherche un mot dans un tableau de mots </summary>
+        /// <param name="tabMots"> Tableau de mot qui commence par la meme lettre</param>
+        /// <param name="mot"> mot à trouver </param>
+        /// <param name="debut"> indice de debut du tableau </param>
+        /// <param name="fin"> indice de fin du tablaeu </param>
+        /// <returns> Si le mot est dans le tableau</returns>
         public bool RecheDichoRecursif(string[] tabMots, string mot, int debut, int fin)
         {
             if (fin < debut){
@@ -103,6 +123,9 @@ namespace projet_algo
             }
             return RecheDichoRecursif(tabMots, mot, debut, fin);        
         }
+        
+        /// <summary> Méthode qui trie les mots du dictionnaire </summary>
+        /// <returns> Liste de mots triés </returns>
         public void Tri_Fusion_Dico()
         {
             for (int i = 0; i < listeMots.Count; i++)
@@ -110,6 +133,10 @@ namespace projet_algo
                 Tri_Fusion(listeMots[i]);
             }
         }
+
+        /// <summary>  Méthode qui trie un tableau de mots par ordre alphabétique </summary>
+        /// <param name="tableau"> Tableau de mot qui commence par la meme lettre</param>
+        /// <returns> Tableau trié </returns>
         public string[] Tri_Fusion(string[] tableau)
         {
             if (tableau.Length <= 1)
@@ -136,6 +163,11 @@ namespace projet_algo
             return Fusion(tableau,gauche, droite);
         }
 
+        /// <summary> Méthode qui fusionne deux tableaux de mots </summary>
+        /// <param name="tableau"> Tableau de mot qui commence par la meme lettre</param>
+        /// <param name="gauche"> Moitié gauche du tableau </param>
+        /// <param name="droite"> Moitié Droite du tableau </param>
+        /// <returns> Tableau fusionné </returns>
         public string[] Fusion(string[]tableau, string[] gauche, string[] droite)
         {
             int indexGauche = 0;
@@ -174,6 +206,8 @@ namespace projet_algo
             return tableau;
         }
 
+        /// <summary> Méthode qui affiche le dictionnaire </summary>
+        /// <returns> Le dictionnaire </returns>
         public string toString()
         {
             string strLangue = "La langue du dictionnaire est " + langue + ".";
