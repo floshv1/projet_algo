@@ -17,12 +17,23 @@ namespace projet_algo
         {
             this.langue = langue;
             string fileName = "Mots_" + langue + ".txt";
-            ReadFile(fileName);
+            if (File.Exists(fileName))
+            {
+                ReadFile(fileName);
+            }
+            else
+            {
+                Interface.CenterText($"Le fichier {fileName} n'existe pas");
+            }
         }
 
         public List<string[]> ListeMots 
         { 
             get{ return listeMots;}
+        }
+        public string Langue
+        {
+            get { return langue; }
         }
 
         public void ReadFile(string fileName)
@@ -41,9 +52,28 @@ namespace projet_algo
         }
         public bool RecheDichoDico(string mot)
         {
-            mot= mot.ToUpper();
-            int index = char.Parse(mot[0].ToString().ToLower()) - 97;
-            return RecheDichoRecursif(listeMots[index], mot, 0,listeMots[index].Length-1 );
+            bool lettreTrouve = false;
+            int index = 0;
+            if (mot.Length != 0 && mot != null)
+            {
+                mot= mot.ToUpper();
+                for (int i = 0; i < listeMots.Count; i++)
+                {
+                    if (mot[0] == listeMots[i][0][0])
+                    {
+                    lettreTrouve = true;
+                    index = i;
+                    }
+                }   
+            }
+            if (lettreTrouve == false || mot == null || mot.Length == 0)
+            {
+                return false;
+            }
+            else
+            {
+                return RecheDichoRecursif(listeMots[index], mot, 0, listeMots[index].Length - 1);
+            }
         }
         public bool RecheDichoRecursif(string[] tabMots, string mot, int debut, int fin)
         {
@@ -64,7 +94,6 @@ namespace projet_algo
             {
                 debut = milieu + 1;
             }
-
             return RecheDichoRecursif(tabMots, mot, debut, fin);        
         }
         public void Tri_Fusion_Dico()
