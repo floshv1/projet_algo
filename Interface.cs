@@ -127,6 +127,7 @@ namespace projet_algo
                 Console.SetCursorPosition(0, Console.WindowHeight / 2 - 9);
                 WriteLineWithUnderline("Règle du Jeu");
                 CenterText("- Vous aurez un temps limité pour trouver un mot dans le plateau (30, 45 ou 60 secondes).         ");
+                CenterText("- La recherche de mot commence a partie de la base du plateau.                                    ");
                 CenterText("- Vous devrez écrire entièrement le mot et appuyer sur la touche Entrée.                          \n");
                 CenterText("- Si le mot est invalide, vous ne gagnerez pas de points et vous pourrez réessayer.               ");
                 CenterText("- Si le mot est valide, il sera ajouté à votre liste de mots trouvés et vous gagnerez des points. ");
@@ -136,8 +137,8 @@ namespace projet_algo
                 CenterText("    - 4 points pour les lettres : B, G;                                                           ");
                 CenterText("    - 5 points pour les lettres : F, H, J, K, Q, V, W, X, Y, Z;                                   \n");
                 CenterText("- Vous pouvez quitter la partie ou passer votre tour à tout moment en saisissant le caractère '!'.");
-                CenterText("- Cependant si vous passer votre tour, vous perderez 2 points.                                    ");
-                CenterText("- La partie se terminera lorsque le plateau sera vide ou lorsque le temps sera écoulé.            ");
+                CenterText("- Cependant vous pouvez perdre des points en passant votre tour ou si le temps est écoulé.        ");
+                CenterText("- La partie se terminera lorsque le plateau sera vide ou si les deux joueurs passent leur tour.   ");
                 Console.WriteLine();
                 CenterText("Appuyez sur Entrée pour aller au menu.");
             }while (Console.ReadKey(true).Key != ConsoleKey.Enter);

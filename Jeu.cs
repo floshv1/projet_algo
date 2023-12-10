@@ -81,6 +81,9 @@ namespace projet_algo
                     session.Jouer(session.joueur2);
                     AuTourDe(session,"joueur1");
                     session.SaveGameToCSV($"Save/save{session.nom}.csv");
+                    Thread.Sleep(500);
+                    Interface.AfficherScore("Score",session);
+                    Thread.Sleep(2000);
                     BoucleJeu(session);
                 }
             }
@@ -111,6 +114,7 @@ namespace projet_algo
                     break;
                 case 1:
                     Console.Clear();
+                    Console.SetCursorPosition(0, Console.WindowHeight / 2);
                     dico = new Dictionnaire("Anglais");
                     Interface.CenterText("La langue Anglaise n'est pas encore disponible");
                     Thread.Sleep(3000);
@@ -150,12 +154,12 @@ namespace projet_algo
                     break;
             }
         }
-
         public void Jouer(Joueur joueur)
         {
             int cpt = 5;
             string mot = "";
             bool verif = false;
+            bool finTemps = false;
             joueur.Skip = false;
 
             Console.Clear();
@@ -195,77 +199,91 @@ namespace projet_algo
 
                 Console.Clear();
                 Console.SetCursorPosition(0, Console.WindowHeight / 2 - plateau.Matrice.GetLength(0) / 2 - 4);
-                if(mot != null && mot != "")
+                if (DateTime.Now > fin)
                 {
-                    if(mot != "!")
-                    {
-                        if (dico.RecheDichoDico(mot) == true)
-                        {
-                            if (!joueur.Contient(mot))
-                            {
-                                if (plateau.Recherche_Mot(mot) == false)
-                                {
-                                    Interface.CenterText("Le mot n'est pas dans le plateau");
-                                }
-                                else
-                                {
-                                    verif = true;
-                                    joueur.AddMot(mot);
-                                    joueur.AddScore(mot);
-                                    plateau.GlisserLettres();
-                                    Interface.CenterText("Le mot a été trouvé");
-                                }
-                            }
-                            else Interface.CenterText("Le mot a déjà été trouvé");
-                        }
-                        else Interface.CenterText("Le mot n'est pas dans le dictionnaire");
-                    }
-                    else
-                    {
-                        switch(Interface.Menu("MENU", new string[] { "Reprendre","Voir Score","Passer son tour", "Quitter la partie"})){
-                            case 0:
-                                Console.Clear();
-                                break;
-                            case 1:
-                                do
-                                {
-                                    Interface.AfficherScore("Score",this );
-                                    Interface.CenterText("Retour au jeu");
-
-                                }while(Console.ReadKey(true).Key != ConsoleKey.Enter);
-
-                                Console.Clear();
-                                break;
-                            case 2:
-                                Console.Clear();
-                                Console.SetCursorPosition(0, Console.WindowHeight / 2 );
-                                Interface.CenterText("Vous avez passé votre tour");
-                                joueur.Skip = true;
-                                joueur.ScoresPlateau -= 2;
-                                verif = true;
-                                break;
-                            case 3:
-                                Console.Clear();
-                                Console.SetCursorPosition(0, Console.WindowHeight / 2 );
-                                Interface.CenterText("Vous avez quitté la partie");
-                                Thread.Sleep(2000);
-                                Interface.MainMenu();
-                                verif = true;
-                                break;
-                        }
-                    }
+                    finTemps = true;
                 }
-                else 
+                else
                 {
-                    Interface.CenterText("Le mot est vide ");
+                    if(mot != null && mot != "")
+                    {
+                        if(mot != "!")
+                        {
+                            if (dico.RecheDichoDico(mot) == true)
+                            {
+                                if (!joueur.Contient(mot))
+                                {
+                                    if (plateau.Recherche_Mot(mot) == false)
+                                    {
+                                        Interface.CenterText("Le mot n'est pas dans le plateau");
+                                    }
+                                    else
+                                    {
+                                        
+                                            verif = true;
+                                            joueur.AddMot(mot);
+                                            joueur.AddScore(mot);
+                                            plateau.GlisserLettres();
+                                            Interface.CenterText("Le mot a été trouvé");
+
+
+                                    }
+                                }
+                                else Interface.CenterText("Le mot a déjà été trouvé");
+                            }
+                            else Interface.CenterText("Le mot n'est pas dans le dictionnaire");
+                        }
+                        else
+                        {
+                            switch(Interface.Menu("MENU", new string[] { "Reprendre","Voir Score","Passer son tour", "Quitter la partie"})){
+                                case 0:
+                                    Console.Clear();
+                                    break;
+                                case 1:
+                                    do
+                                    {
+                                        Interface.AfficherScore("Score",this );
+                                        Interface.CenterText("Retour au jeu");
+
+                                    }while(Console.ReadKey(true).Key != ConsoleKey.Enter);
+
+                                    Console.Clear();
+                                    break;
+                                case 2:
+                                    Console.Clear();
+                                    Console.SetCursorPosition(0, Console.WindowHeight / 2 );
+                                    Interface.CenterText("Vous avez passé votre tour");
+                                    joueur.Skip = true;
+                                    joueur.ScoresPlateau -= 2;
+                                    verif = true;
+                                    break;
+                                case 3:
+                                    Console.Clear();
+                                    Console.SetCursorPosition(0, Console.WindowHeight / 2 );
+                                    Interface.CenterText("Vous avez quitté la partie");
+                                    Thread.Sleep(2000);
+                                    Interface.MainMenu();
+                                    verif = true;
+                                    break;
+                            }
+                        }
+                    }
+                    else 
+                    {
+                        Interface.CenterText("Le mot est vide ");
+                    }
                 }
                 Console.WriteLine();
                 
-            }while(DateTime.Now < fin && verif == false);
+            }while(finTemps == false && verif == false);
+
             if(verif == false)
             {
                 Interface.CenterText("Temps écoulé");
+                joueur.Skip = true;
+                joueur.ScoresPlateau -= 2;
             }
+
             Interface.CenterText("Fin du tour");
         }
         public string SaisieJoueur(string message)
