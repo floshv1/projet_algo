@@ -24,7 +24,7 @@ namespace projet_algo
         /// <returns> Un nouveau plateau de jeu </returns>
         public Plateau(int ligne, int colonne)
         {
-            List<char> listeLettre = ListeLettre("Lettre.txt", ligne, colonne);
+            List<char> listeLettre = ListeLettre("Lettre.txt");
             Random rand = new Random();
 
             matrice = new char[ligne, colonne];
@@ -73,14 +73,14 @@ namespace projet_algo
         /// <param name="ligne"> Nombre de lignes du plateau </param>
         /// <param name="colonne"> Nombre de colonnes du plateau </param>
         /// <returns> La liste de lettres </returns>
-        public List<char> ListeLettre(string filename, int ligne, int colonne)
+        public List<char> ListeLettre(string filename)
         {
             List<char> listeLettre = new List<char>();
             StreamReader sr = new StreamReader(filename);
-            int nbrLettre = ligne * colonne;
 
             string line = sr.ReadLine();
 
+            // Remplie la liste de lettres selon leur nombre d'occurence max
             while (line != null)
             {
                 string[] lineSplit = line.Split(',');
@@ -172,7 +172,6 @@ namespace projet_algo
                 }
                     if (matrice[ligne,colonne] == mot[index])
                     {
-                        char memoire = matrice[ligne, colonne];
                         bool verif = Recherche_Lettre(mot, ligne, colonne - 1, index + 1)|| Recherche_Lettre(mot, ligne - 1, colonne - 1, index + 1)
                                 || Recherche_Lettre(mot, ligne - 1, colonne, index + 1) || Recherche_Lettre(mot, ligne - 1, colonne + 1, index + 1)
                                 || Recherche_Lettre(mot, ligne, colonne + 1, index + 1) ;
@@ -195,6 +194,7 @@ namespace projet_algo
         /// <returns> Si la lettre est retirée </returns>
         public bool Retire_Lettre(string mot, int ligne, int colonne, int index)
         {
+            // Meme principe que la méthode Recherche_Lettre mais on retire les lettres en plus
             try
             {
                 if (index == mot.Length)
@@ -203,7 +203,6 @@ namespace projet_algo
                 }
                 if (matrice[ligne,colonne] == mot[index])
                 {
-                    char memoire = matrice[ligne, colonne];
                     matrice[ligne, colonne] = ' ';
                     bool verif = Retire_Lettre(mot, ligne, colonne - 1, index + 1)|| Retire_Lettre(mot, ligne - 1, colonne - 1, index + 1)
                             || Retire_Lettre(mot, ligne - 1, colonne, index + 1) || Retire_Lettre(mot, ligne - 1, colonne + 1, index + 1)
@@ -223,11 +222,11 @@ namespace projet_algo
         /// <returns> La matrice avec les mots glissés </returns>
         public void GlisserLettres()
         {
-            int rows = matrice.GetLength(0);
-            int cols = matrice.GetLength(1);
+            int ligne = matrice.GetLength(0);
+            int colonne = matrice.GetLength(1);
 
             // Parcourir chaque colonne de la matrice
-            for (int j = 0; j < cols; j++)
+            for (int j = 0; j < colonne; j++)
             {
                 bool lettreDeplacee;
                 do
@@ -235,7 +234,7 @@ namespace projet_algo
                     lettreDeplacee = false;
 
                     // Parcourir chaque ligne de bas en haut (sauf la première ligne)
-                    for (int i = rows - 1; i > 0; i--)
+                    for (int i = ligne - 1; i > 0; i--)
                     {
                         if (matrice[i, j] == ' ' && matrice[i - 1, j] != ' ')
                         {
@@ -244,6 +243,8 @@ namespace projet_algo
                             matrice[i, j] = matrice[i - 1, j];
                             matrice[i - 1, j] = ' ';
                             lettreDeplacee = true;
+
+                            // Afficher le glissement du plateau
                             Console.SetCursorPosition(0, Console.WindowHeight / 2 - Matrice.GetLength(0) / 2 - 1);
                             Interface.CenterText("Glissement en cours...");
                             Interface.AffichePlateau(Matrice);
@@ -264,6 +265,7 @@ namespace projet_algo
             StreamReader sr = new StreamReader(nomFile);
             string s = sr.ReadLine();
 
+            // Met chaque ligne du fichier dans une liste de char
             while (s != null)
             {
                 string[] lines = s.Split(';');
@@ -277,8 +279,10 @@ namespace projet_algo
             }
             sr.Close();
 
+            // Initialise la matrice avec la liste de char
             matrice = new char[listeLettre.Count,listeLettre[0].Length];
             
+            // Rempli la matrice avec la liste de char
             for (int i = 0; i <listeLettre.Count ; i++)
             {
                 for (int j = 0; j <listeLettre[0].Length ; j++)

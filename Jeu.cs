@@ -20,10 +20,10 @@ namespace projet_algo
         string nom;
 
         /// <summary> Joueur 1 </summary>
-        public Joueur joueur1;
+        Joueur joueur1;
 
         /// <summary> Joueur 2 </summary>
-        public Joueur joueur2;
+        Joueur joueur2;
 
         /// <summary> Plateau de jeu </summary>
         Plateau plateau;
@@ -41,18 +41,21 @@ namespace projet_algo
         public string Nom
         {
             get { return nom; }
+            set { nom = value; }
         }
 
         /// <summary> Propriété du joueur 1 </summary>
         public Joueur Joueur1
         {
             get { return joueur1; }
+            set { joueur1 = value; }
         }
 
         /// <summary> Propriété du joueur 2 </summary>
         public Joueur Joueur2
         {
             get { return joueur2; }
+            set { joueur2 = value; }
         }
 
         /// <summary> Propriété du plateau de jeu </summary>
@@ -259,6 +262,7 @@ namespace projet_algo
             // Compteur de début de tour
             do
             {
+                // Réecrire la ligne à chaque boucle
                 Console.Write("{0,"+((Console.WindowWidth / 2) - ("Commence dans : ".Length / 2)) + "}","");
                 Console.Write($"Commence dans : {cpt}");
                 Thread.Sleep(1000);
@@ -424,6 +428,7 @@ namespace projet_algo
         public void SaveGameToCSV(string nomFichier)
         {            
             StreamWriter sw = new StreamWriter(nomFichier);
+            // Chaque ligne correspond à un attribut de la classe
             sw.WriteLine(nom);
             sw.WriteLine(joueur1.toFile());
             sw.WriteLine(joueur2.toFile());

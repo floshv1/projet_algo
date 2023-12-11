@@ -58,6 +58,8 @@ namespace projet_algo
             StreamReader sr = new StreamReader(fileName);
             string line = sr.ReadLine();
 
+            // On lit le fichier ligne par ligne
+            // On ajoute chaque ligne dans la liste de mots, une ligne correspond a une lettre
             while (line != null)
             {
                 string[] words = line.Split(' ');
@@ -72,13 +74,16 @@ namespace projet_algo
         /// <returns> Si le mot est dans le dictionnaire </returns>
         public bool RecheDichoDico(string mot)
         {
+            
             bool lettreTrouve = false;
             int index = 0;
             if (mot.Length != 0 && mot != null)
             {
+                // On met le mot en majuscule pour pouvoir le comparer avec mots de la liste
                 mot= mot.ToUpper();
                 for (int i = 0; i < listeMots.Count; i++)
                 {
+                    // On vérifie si la première lettre du mot est la même que la première lettre du tableau
                     if (mot[0] == listeMots[i][0][0])
                     {
                     lettreTrouve = true;
@@ -86,6 +91,7 @@ namespace projet_algo
                     }
                 }   
             }
+            // Si la lettre n'est pas dans le dictionnaire, on retourne faux
             if (lettreTrouve == false || mot == null || mot.Length == 0)
             {
                 return false;
@@ -104,19 +110,25 @@ namespace projet_algo
         /// <returns> Si le mot est dans le tableau</returns>
         public bool RecheDichoRecursif(string[] tabMots, string mot, int debut, int fin)
         {
+            // Si le tableau est vide, on retourne faux
             if (fin < debut){
                 return false;
             }
+
+            // On cherche le milieu du tableau
             int milieu = (debut + fin) / 2;
 
+            // On compare le mot avec le mot du milieu du tableau
             if (mot == tabMots[milieu])
             {
                 return true;
             }
+            // Si le mot est plus petit que le mot du milieu, on cherche dans la moitié gauche du tableau
             else if (tabMots[milieu].CompareTo(mot) > 0)
             {
                 fin = milieu - 1;
             }
+            // Sinon on cherche dans la moitié droite du tableau
             else
             {
                 debut = milieu + 1;
@@ -143,11 +155,12 @@ namespace projet_algo
             {
                 return tableau;
             }
-
+            // On divise le tableau en deux
             int milieu = tableau.Length / 2;
             string[] gauche = new string[milieu];
             string[] droite = new string[tableau.Length - milieu];
 
+            // On remplit les deux tableaux avec les mots du tableau initial
             for (int j = 0; j < milieu; j++)
             {
                 gauche[j] = tableau[j];
@@ -158,6 +171,7 @@ namespace projet_algo
                 droite[j - milieu] = tableau[j];
             }
 
+            // On separer les deux tableaux en deux jusqu'a ce qu'il ne reste plus qu'un mot
             gauche = Tri_Fusion(gauche);
             droite = Tri_Fusion(droite);
             return Fusion(tableau,gauche, droite);
@@ -170,17 +184,20 @@ namespace projet_algo
         /// <returns> Tableau fusionné </returns>
         public string[] Fusion(string[]tableau, string[] gauche, string[] droite)
         {
+            // On compare les mots des deux tableaux et on les ajoute dans le tableau initial
             int indexGauche = 0;
             int indexDroite = 0;
             int indexTableau = 0;
 
             while (indexGauche < gauche.Length && indexDroite < droite.Length)
             {
+                // Si le mot de gauche est plus petit que le mot de droite, on ajoute le mot de gauche dans le tableau
                 if (gauche[indexGauche].CompareTo(droite[indexDroite]) < 0)
                 {
                     tableau[indexTableau] = gauche[indexGauche];
                     indexGauche++;
                 }
+                // Sinon on ajoute le mot de droite dans le tableau
                 else
                 {
                     tableau[indexTableau] = droite[indexDroite];
@@ -189,6 +206,7 @@ namespace projet_algo
                 indexTableau++;
             }
 
+            // On ajoute les mots restants dans le tableau
             while (indexGauche < gauche.Length)
             {
                 tableau[indexTableau] = gauche[indexGauche];
@@ -196,6 +214,7 @@ namespace projet_algo
                 indexTableau++;
             }
 
+            // On ajoute les mots restants dans le tableau
             while (indexDroite < droite.Length)
             {
                 tableau[indexTableau] = droite[indexDroite];
@@ -210,9 +229,11 @@ namespace projet_algo
         /// <returns> Le dictionnaire </returns>
         public string toString()
         {
+            // On affiche la langue du dictionnaire
             string strLangue = "La langue du dictionnaire est " + langue + ".";
             string strNombreDeMots = "";
             
+            // On affiche le nombre de mots par lettre
             for (int i = 65 ; i < 91 ; i++)
             {
                 strNombreDeMots += "\n" + Convert.ToChar(i) + " : " + listeMots[i-65].Length + " mots";
