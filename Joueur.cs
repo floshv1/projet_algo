@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
@@ -103,6 +104,8 @@ namespace projet_algo
             string strMotsTrouves =""; 
             foreach(string mot in motsTrouves)
             {
+                // On ajoute une virgule entre chaque mot sauf le dernier
+                // Last() permet de récupérer le dernier élément de la liste
                 if(mot != motsTrouves.Last())
                     strMotsTrouves += mot + ",";
                 else strMotsTrouves += mot; 
@@ -114,16 +117,25 @@ namespace projet_algo
         /// <param name="ligne"> Ligne du fichier </param>
         /// <returns> Le joueur </returns>
         public static Joueur StringToJoueur(string ligne){
+
+            //Decomposer la ligne pour avoir les attributs
             string[] lignes = ligne.Split(';');
             Joueur joueur = new Joueur(lignes[0]);
             joueur.enJeu = bool.Parse(lignes[1]);
             joueur.skip = bool.Parse(lignes[2]);
             joueur.scoresPlateau = int.Parse(lignes[3]);
 
-            string[] strMotsTrouves = lignes[4].Split(',');
-            foreach(string mot in strMotsTrouves){
-                joueur.motsTrouves.Add(mot);
+            // Si le 5eme attribut n'est pas vide, on ajoute les mots trouvés
+            if (!string.IsNullOrWhiteSpace(lignes[4]))
+            {
+                // On sépare les mots trouvés pour les ajouter à la liste
+                string[] strMotsTrouves = lignes[4].Split(',');
+                foreach (string mot in strMotsTrouves)
+                {
+                   joueur.motsTrouves.Add(mot);   
+                }
             }
+            
             return joueur;
         }
         
@@ -143,8 +155,10 @@ namespace projet_algo
             {
                 int scores  = 0 ; 
                 int i = 0;
+                // On met le mot en majuscule pour pouvoir le comparer avec les lettres du fichier
                 mot = mot.ToUpper();
-                string[]  lignes = File.ReadAllLines("Lettre.txt");
+                string[] lignes = File.ReadAllLines("Lettre.txt");
+                // Pour chaque lettre du mot, on regarde dans le fichier le nombre de points qu'elle vaut
                 for (i = 0; i < mot.Length; i++)
                 {
                     foreach(string ligne in lignes)

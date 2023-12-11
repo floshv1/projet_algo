@@ -1,6 +1,8 @@
 using System.Security.Permissions;
 using System.Globalization;
 using System;
+using System.IO;
+using System.Threading;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Diagnostics;
@@ -18,10 +20,10 @@ namespace projet_algo
         string nom;
 
         /// <summary> Joueur 1 </summary>
-        public Joueur joueur1;
+        Joueur joueur1;
 
         /// <summary> Joueur 2 </summary>
-        public Joueur joueur2;
+        Joueur joueur2;
 
         /// <summary> Plateau de jeu </summary>
         Plateau plateau;
@@ -39,18 +41,21 @@ namespace projet_algo
         public string Nom
         {
             get { return nom; }
+            set { nom = value; }
         }
 
         /// <summary> Propriété du joueur 1 </summary>
         public Joueur Joueur1
         {
             get { return joueur1; }
+            set { joueur1 = value; }
         }
 
         /// <summary> Propriété du joueur 2 </summary>
         public Joueur Joueur2
         {
             get { return joueur2; }
+            set { joueur2 = value; }
         }
 
         /// <summary> Propriété du plateau de jeu </summary>
@@ -119,7 +124,7 @@ namespace projet_algo
                 Console.SetCursorPosition(0, Console.WindowHeight / 2);
                 Interface.CenterText("Mauvais format de fichier");
                 Thread.Sleep(2000);
-                Interface.MainMenu();
+                Interface.Charger();
             }
         }
         #endregion
@@ -135,7 +140,7 @@ namespace projet_algo
             {
                 if(session.joueur1.EnJeu == true)
                 {
-                    Thread.Sleep(2000);
+                    Thread.Sleep(1000);
                     session.Jouer(session.joueur1);
                     AuTourDe(session,"joueur2");
                     session.SaveGameToCSV($"Save/save{session.nom}.csv");
@@ -143,13 +148,13 @@ namespace projet_algo
                 }
                 else if(session.joueur2.EnJeu == true)
                 {
-                    Thread.Sleep(2000);
+                    Thread.Sleep(1000);
                     session.Jouer(session.joueur2);
                     AuTourDe(session,"joueur1");
                     session.SaveGameToCSV($"Save/save{session.nom}.csv");
                     Thread.Sleep(500);
                     Interface.AfficherScore("Score",session);
-                    Thread.Sleep(2000);
+                    Thread.Sleep(1000);
                     BoucleJeu(session);
                 }
             }
@@ -180,6 +185,7 @@ namespace projet_algo
         public void DefinirLangue()
         {
             DefinirLangue :
+
             Console.Clear();
             switch(Interface.Menu("Choix de la langue", new string[] { "Français", "Anglais" }))
             {
@@ -249,11 +255,14 @@ namespace projet_algo
             Console.SetCursorPosition(0, Console.WindowHeight / 2 - 3);
             dico.Tri_Fusion_Dico();
 
+            // Message avant de jouer
             Interface.CenterText($"C'est au tour de {joueur.Nom} de jouer.");
             Interface.CenterText($"Tu as {temps} secondes pour touver un mot pour chercher un mot.");
 
+            // Compteur de début de tour
             do
             {
+                // Réecrire la ligne à chaque boucle
                 Console.Write("{0,"+((Console.WindowWidth / 2) - ("Commence dans : ".Length / 2)) + "}","");
                 Console.Write($"Commence dans : {cpt}");
                 Thread.Sleep(1000);
@@ -263,25 +272,31 @@ namespace projet_algo
 
             Console.Clear();
 
+            // initialisation du chrono
             DateTime debut = DateTime.Now;
             TimeSpan duree = TimeSpan.FromSeconds(temps);
             DateTime fin = debut + duree;
 
             do
             {
+                // affichage des textes et plateau
                 Console.SetCursorPosition(0, Console.WindowHeight / 2 - plateau.Matrice.GetLength(0) / 2 - 3);
                 Console.WriteLine();
                 Interface.CenterText($"C'est au tour de {joueur.Nom} de jouer.");
                 Interface.CenterText($"{fin-DateTime.Now}");
                 Interface.AffichePlateau(plateau.Matrice);
-
                 Console.Write("\n");
+
+                // Saisie du mot
                 Console.Write("{0,"+((Console.WindowWidth / 2) - ("Entrez un mot : ".Length / 2)) + "}","");
                 Console.Write("Entrez un mot : ");
                 mot = Console.ReadLine();
+                mot = mot.ToLower();
 
                 Console.Clear();
                 Console.SetCursorPosition(0, Console.WindowHeight / 2 - plateau.Matrice.GetLength(0) / 2 - 4);
+
+                // vérification du mot et si le temps n'est pas écoulé 
                 if (DateTime.Now > fin)
                 {
                     finTemps = true;
@@ -302,14 +317,12 @@ namespace projet_algo
                                     }
                                     else
                                     {
-                                        
-                                            verif = true;
-                                            joueur.AddMot(mot);
-                                            joueur.AddScore(mot);
-                                            plateau.GlisserLettres();
-                                            Interface.CenterText("Le mot a été trouvé");
-
-
+                                    
+                                        verif = true;
+                                        joueur.AddMot(mot);
+                                        joueur.AddScore(mot);
+                                        plateau.GlisserLettres();
+                                        Interface.CenterText("Le mot a été trouvé");
                                     }
                                 }
                                 else Interface.CenterText("Le mot a déjà été trouvé");
@@ -318,6 +331,7 @@ namespace projet_algo
                         }
                         else
                         {
+                            // Menu durant la partie
                             switch(Interface.Menu("MENU", new string[] { "Reprendre","Voir Score","Passer son tour", "Quitter la partie"})){
                                 case 0:
                                     Console.Clear();
@@ -326,7 +340,7 @@ namespace projet_algo
                                     do
                                     {
                                         Interface.AfficherScore("Score",this );
-                                        Interface.CenterText("Retour au jeu");
+                                        Interface.CenterText("Appuyer sur Entrée pour retourner au jeu");
 
                                     }while(Console.ReadKey(true).Key != ConsoleKey.Enter);
 
@@ -414,6 +428,7 @@ namespace projet_algo
         public void SaveGameToCSV(string nomFichier)
         {            
             StreamWriter sw = new StreamWriter(nomFichier);
+            // Chaque ligne correspond à un attribut de la classe
             sw.WriteLine(nom);
             sw.WriteLine(joueur1.toFile());
             sw.WriteLine(joueur2.toFile());
