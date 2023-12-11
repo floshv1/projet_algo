@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.IO;
+using System.Threading;
 using System.Diagnostics;
 
 namespace projet_algo
@@ -131,10 +133,9 @@ namespace projet_algo
 
                 int colonnes = matrice.GetLength(1);
 
-                // Parcourir chaque cellule de la base du plateau
+                // Recherche le mot à partir de la base et s'arrète s'il a parcouru toute la base ou quand le mot est trouvé
                 for (int j = 0; j < colonnes  && estMaj ==false; j++)
                 {
-                    // Recherche le mot à partir de chaque cellule de la base
                     if (Recherche_Lettre(mot, matrice.GetLength(0) - 1, j, 0))
                     {
                         verif = true;
@@ -182,7 +183,6 @@ namespace projet_algo
             catch( IndexOutOfRangeException e)
             {
                 return false;
-                throw;
             }
             
         }
@@ -215,7 +215,6 @@ namespace projet_algo
             catch( IndexOutOfRangeException e)
             {
                 return false;
-                throw;
             }
             
         }
@@ -248,7 +247,7 @@ namespace projet_algo
                             Console.SetCursorPosition(0, Console.WindowHeight / 2 - Matrice.GetLength(0) / 2 - 1);
                             Interface.CenterText("Glissement en cours...");
                             Interface.AffichePlateau(Matrice);
-                            Thread.Sleep(100);
+                            Thread.Sleep(200);
                         }
                     }
                 } while (lettreDeplacee);

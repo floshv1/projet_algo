@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
@@ -120,10 +121,16 @@ namespace projet_algo
             joueur.skip = bool.Parse(lignes[2]);
             joueur.scoresPlateau = int.Parse(lignes[3]);
 
-            string[] strMotsTrouves = lignes[4].Split(',');
-            foreach(string mot in strMotsTrouves){
-                joueur.motsTrouves.Add(mot);
+            if (!string.IsNullOrWhiteSpace(lignes[4]))
+            {
+                
+                string[] strMotsTrouves = lignes[4].Split(',');
+                foreach (string mot in strMotsTrouves)
+                {
+                   joueur.motsTrouves.Add(mot);   
+                }
             }
+            
             return joueur;
         }
         

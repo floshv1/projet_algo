@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
 using System.Runtime.CompilerServices;
 
 namespace projet_algo
@@ -52,6 +51,7 @@ namespace projet_algo
         #region Méthodes
         /// <summary> Méthode qui lit le fichier texte et qui ajoute les mots dans la liste de mots </summary>
         /// <param name="fileName"> Nom du fichier texte </param>
+        /// <return> Lecture du fichier </return>
         public void ReadFile(string fileName)
         {
             listeMots = new List<string[]>();
@@ -60,7 +60,7 @@ namespace projet_algo
 
             while (line != null)
             {
-                string[] words = line.Split(" ");
+                string[] words = line.Split(' ');
                 listeMots.Add(words);
                 line = sr.ReadLine();
             }

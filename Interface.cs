@@ -1,11 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.SymbolStore;
+using System.IO;
 using System.Dynamic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Security.Principal;
 using System.Threading.Tasks;
+using System.Threading;
+
 
 namespace projet_algo
 {
@@ -56,19 +59,16 @@ namespace projet_algo
         public static void Affichage()
         {
             Console.Clear();
-            for (int i = 0; i < 10; i++)
-            {
-                Console.ResetColor();
-                Console.ForegroundColor = RandomColor();
-                Console.BackgroundColor = RandomColor();
-                Console.Clear();
-                AfficheTitre("Titre.txt");
-                Thread.Sleep(200);
-            }
+            Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.BackgroundColor = ConsoleColor.Black;
+            AfficheTitre("Titre.txt");
+            Thread.Sleep(1000);
             CenterText("Appuyez sur Entrée");
             
             do
             {
+                Console.Clear();
                 AfficheTitre("Titre.txt");
                 CenterText("Appuyez sur Entrée");               
             }while(Console.ReadKey(true).Key != ConsoleKey.Enter);
@@ -163,24 +163,21 @@ namespace projet_algo
         public static void Sortir()
         {
             Console.Clear();
-            for (int i = 0; i < 10; i++)
-            {
-                Console.ResetColor();
-                Console.ForegroundColor = RandomColor();
-                Console.BackgroundColor = RandomColor();
-                Console.Clear();
-                AfficheTitre("TitreFin.txt");
-                Thread.Sleep(200);
-            }
-            CenterText("Appuyez sur Entrée pour sortir.");
-            
+            Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.BackgroundColor = ConsoleColor.Black;
+            AfficheTitre("TitreFin.txt");
+            Thread.Sleep(1000);
+            CenterText("Appuyez sur Entrée");
+
             do
             {
+                Console.Clear();
                 AfficheTitre("TitreFin.txt");
-                CenterText("Appuyez sur Entrée pour sortir.");               
-            }while(Console.ReadKey(true).Key != ConsoleKey.Enter);
-            Console.ResetColor();
+                CenterText("Appuyez sur Entrée");
+            } while (Console.ReadKey(true).Key != ConsoleKey.Enter);
             Console.Clear();
+            Console.ResetColor();
             Environment.Exit(0);
         }   
         
